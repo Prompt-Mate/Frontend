@@ -9,7 +9,7 @@ import SettingIcon from "@/assets/icons/lsicon_setting-outline.svg"
 
 export default function Sidebar() {
     return (
-        <aside className="w-[302px] min-h-screen bg-[#FBFCFD] px-4 py-6">
+        <aside className="w-[302px] min-h-screen bg-ui-surface px-4 py-6">
             <nav className="flex flex-col h-full">
                 {/* 🔼 상단 메뉴 */}
                 <div className="flex flex-col gap-2">

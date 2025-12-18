@@ -24,6 +24,7 @@ module.exports = {
                   surface: "#FBFCFD",
                   surfaceSubtle: "#F1F5F9",
                   itemHover: "var(--gray-grey-4, #F1F5F9)",
+                  card: "#F8FAFC",
               },
               chip: {
                   text: "#5527F5",
