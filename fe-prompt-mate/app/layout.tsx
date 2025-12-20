@@ -18,6 +18,7 @@ export default function RootLayout({
     return (
         <html lang="ko" className={pretendard.variable}>
         <body className="flex">
+
         <Sidebar />
 
         <div className="flex flex-1 flex-col">
