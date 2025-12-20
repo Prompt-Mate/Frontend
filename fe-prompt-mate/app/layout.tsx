@@ -1,24 +1,14 @@
 // app/layout.tsx
 import type { Metadata } from "next";
 import "./globals.css";
-import localFont from "next/font/local";
+import { pretendard } from "./fonts/fonts";
 import Sidebar from "@/components/Sidebar";
-
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
     title: "Prompt Mate",
     description: "FE Prompt Mate App",
 };
-
-const brandFont = localFont({
-    src: [
-        { path: "./fonts/Pretendard-Regular.woff2", weight: "400", style: "normal" },
-        { path: "./fonts/Pretendard-Bold.woff2",    weight: "700", style: "normal" },
-        { path: "./fonts/Pretendard-Black.woff2",   weight: "900", style: "normal" },
-    ],
-    variable: "--font-main",
-    display: "swap",
-});
 
 export default function RootLayout({
                                        children,
@@ -26,14 +16,18 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     return (
-        <html lang="ko">
+        <html lang="ko" className={pretendard.variable}>
         <body className="flex">
         <Sidebar />
 
-        <main className="flex-1">
-            {children}
-        </main>
+        <div className="flex flex-1 flex-col">
+            <Header />
+            <main className="flex-1">
+                {children}
+            </main>
+        </div>
         </body>
+
         </html>
     );
 }
