@@ -21,7 +21,29 @@ export function PromptEvaluationCard() {
                                      { label: "언어 품질", score: 75 },
                                      { label: "구조", score: 75 },
                                  ]}/>
-            <EvaluationDetails/>
+            <EvaluationDetails
+                title="명확성"
+                description="문장이 명확하게 전달됩니다"
+                score={74}
+            />
+            <div className="w-full h-[1.5px] bg-ui-textMuted/20" />
+            <EvaluationDetails
+                title="명확성"
+                description="문장이 명확하게 전달됩니다"
+                score={74}
+            />
+            <div className="w-full h-[1.5px] bg-ui-textMuted/20 " />
+            <EvaluationDetails
+                title="명확성"
+                description="문장이 명확하게 전달됩니다"
+                score={74}
+            />
+            <div className="w-full h-[1.5px] bg-ui-textMuted/20" />
+            <EvaluationDetails
+                title="명확성"
+                description="문장이 명확하게 전달됩니다"
+                score={74}
+            />
         </section>
     );
 }

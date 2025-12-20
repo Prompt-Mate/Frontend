@@ -1,13 +1,22 @@
-export function EvaluationDetails() {
+type EvaluationDetailsProps = {
+    title: string;        // "명확성"
+    description: string;  // "설명 텍스트"
+    score: number;        // 74
+};
+
+export function EvaluationDetails({
+                                      title,
+                                      description,
+                                      score,
+                                  }: EvaluationDetailsProps) {
     return (
-        <div className="flex items-center text-body font-semibold">
+        <div className="flex items-center text-body font-semibold p-6">
             <div className="flex items-center gap-[55px]">
-                <span>명확성</span>
-                <span>설명 텍스트</span>
+                <span>{title}</span>
+                <span>{description}</span>
             </div>
 
-            <span className="ml-auto">74점</span>
+            <span className="ml-auto">{score}점</span>
         </div>
-
     );
 }
