@@ -35,9 +35,11 @@ module.exports = {
       },
   },
   plugins: [],
-}
+
+};
 
 //text-의 정체 (Tailwind 규칙)
 //[어디에 적용할지] - [무엇을 쓸지] -> text-red-500 → 텍스트 색상 ,bg-blue-500 → 배경 색 ,border-gray-300 → 테두리 색
 //var( CSS변수이름 , fallback값 ),
 // css 텍스트 규칙 : line-height (%) ÷ 100 = line-height (숫자) + lineHeight 숫자만 사용은 font-size가 바뀌어도 비율을 유지하기 때문
+
