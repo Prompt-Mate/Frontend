@@ -1,4 +1,4 @@
-// app/page.tsx
+// app/RewriteText.tsx
 
 export default function Home() {
     return (

@@ -1,4 +1,4 @@
-// app/rewrite/page.tsx
+// app/rewrite/RewriteText.tsx
 "use client";
 
 import { useState } from "react";
@@ -8,7 +8,7 @@ import RewriteArrow from "@/components/rewrite/RewriteArrow";
 import SaveButton from "@/components/rewrite/SaveButton";
 import { rewritePrompt } from "@/lib/rewrite";
 
-export default function RewritePage() {
+export default function RewriteText() {
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
