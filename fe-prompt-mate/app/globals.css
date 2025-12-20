@@ -1,41 +1,43 @@
 /* app/globals.css */
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* 기본 리셋 */
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html,
 body {
-    margin: 0;
-    padding: 0;
-    font-weight: 400;
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
 }
 
-/* 제목은 Black(900) */
+/* 기본 타이포 */
 h1,
 h2,
 h3 {
-    font-weight: 900;
+  font-weight: 900;
 }
 
-/* 서브 타이틀 / 강조 텍스트는 Bold(700) */
 strong,
 b {
-    font-weight: 700;
+  font-weight: 700;
 }
 
-/* Tailwind에서 편하게 쓰고 싶으면 유틸 클래스도 추가 */
+/* 커스텀 유틸 */
 @layer utilities {
-    .font-heading {
-        font-weight: 900; /* Pretendard-Black */
-    }
+  .font-heading {
+    font-weight: 900;
+  }
 
-    .font-body {
-        font-weight: 400; /* Pretendard-Regular */
-    }
+  .font-body {
+    font-weight: 400;
+  }
 
-    .font-accent {
-        font-weight: 700; /* Pretendard-Bold */
-    }
+  .font-accent {
+    font-weight: 700;
+  }
 }
