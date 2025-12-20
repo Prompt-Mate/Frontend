@@ -2,6 +2,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import localFont from "next/font/local";
+import Sidebar from "@/components/Sidebar";
+
 
 export const metadata: Metadata = {
     title: "Prompt Mate",
@@ -25,7 +27,13 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ko">
-        <body>{children}</body>
+        <body className="flex">
+        <Sidebar />
+
+        <main className="flex-1">
+            {children}
+        </main>
+        </body>
         </html>
     );
 }
