@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { pretendard } from "./fonts/fonts";
 import Sidebar from "@/components/Sidebar";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
     title: "Prompt Mate",
@@ -16,13 +17,18 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ko" className={pretendard.variable}>
-        <body className="flex font-sans">
+        <body className="flex">
+
         <Sidebar />
 
-        <main className="flex-1">
-            {children}
-        </main>
+        <div className="flex flex-1 flex-col">
+            <Header />
+            <main className="flex-1">
+                {children}
+            </main>
+        </div>
         </body>
+
         </html>
     );
 }
