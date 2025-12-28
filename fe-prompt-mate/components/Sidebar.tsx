@@ -13,7 +13,7 @@ export default function Sidebar() {
             <nav className="flex flex-col h-full">
                 {/* 🔼 상단 메뉴 */}
                 <div className="flex flex-col gap-2">
-                    <SidebarItem href="/" icon={<HomeIcon />} label="홈" />
+                    <SidebarItem href="/home" icon={<HomeIcon />} label="홈" />
                     <SidebarItem href="/prompts" icon={<PromptIcon />} label="프롬프트 다듬기" />
                     <SidebarItem href="/community" icon={<PromptCommunityIcon />} label="프롬프트 커뮤니티" />
                     <SidebarItem href="/library" icon={<LibraryIcon />} label="라이브러리" />
