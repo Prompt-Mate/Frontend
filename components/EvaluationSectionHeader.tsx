@@ -1,7 +1,7 @@
 import { PageTitleBlock } from "./PageTitleBlock";
 import { TagChip } from "./TagChip";
 
-export function EvaluationSectionHeader() {
+export default function EvaluationSectionHeader() {
     return (
         <section className="space-y-4">
             <PageTitleBlock

@@ -23,5 +23,7 @@ export default function KakaoLoginButton() {
       <KakaoIcon className="w-9 h-9" />
       카카오 계정으로 계속하기
     </button>
+
+    
   );
 }

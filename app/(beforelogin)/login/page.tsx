@@ -1,3 +1,5 @@
+// app/(beforelogin)/login/page.tsx
+
 import KakaoLoginButton from "@/components/auth/KakaoLoginButton";
 import KakaoSignupButton from "@/components/auth/KakaoSignupButton";
 import Link from "next/link";

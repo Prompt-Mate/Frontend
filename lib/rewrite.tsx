@@ -1,4 +1,4 @@
-// lib/rewrite.ts
+// lib/rewrite.tsx
 export async function rewritePrompt(input: string): Promise<string> {
   // API 흉내용 딜레이
   await new Promise((res) => setTimeout(res, 800));

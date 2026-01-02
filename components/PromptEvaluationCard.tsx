@@ -2,7 +2,7 @@ import {EvaluationHeader} from "@/components/EvaluationHeader";
 import {EvaluationDetails} from "@/components/EvaluationDetails";
 import {EvaluationOverview} from "@/components/EvaluationOverview";
 
-export function PromptEvaluationCard() {
+export default function PromptEvaluationCard() {
     return (
         <section
             className="

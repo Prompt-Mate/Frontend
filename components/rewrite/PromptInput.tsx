@@ -1,4 +1,3 @@
-// components/rewrite/PromptInput.tsx
 "use client";
 
 import { useState } from "react";
@@ -12,54 +11,58 @@ export default function PromptInput({ onRewrite, loading }: Props) {
   const [value, setValue] = useState("");
 
   return (
-    <div className="rounded-2xl border bg-white p-6">
-      <h2 className="mb-4 text-sm font-semibold">내 프롬프트 입력하기</h2>
+    <div
+      className="
+        flex flex-col
+        h-[481px]             
+        rounded-2xl
+        bg-ui-surface
+        p-9
+      "
+    >
+      {/* 헤더 */}
+      <div className="flex items-center justify-between h-[32px] shrink-0">
+        <h2 className="text-[24px] font-bold text-ui-text">
+          내 프롬프트 입력하기
+        </h2>
+      </div>
 
-     <textarea
-  maxLength={1000}
-  className="
-    mt-3
-    h-[400px]
-    w-full
-    resize-none
-    rounded-lg
-    border
-    p-4
-    text-sm
-    outline-none
-  "
-  placeholder="다듬고 싶은 프롬프트를 입력해보세요."
-  value={value}
-  onChange={(e) => setValue(e.target.value)}
-/>
+      {/* textarea */}
+      <textarea
+        className="
+          mt-6
+          flex-1              
+          w-full
+          resize-none
+          overflow-auto  // 입력 내용이 많으면 내부에서 스크롤 
+          rounded-lg
+          border
+          p-4
+        "
+        placeholder="다듬고 싶은 프롬프트를 입력해보세요."
+        maxLength={1000}
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
 
-      <div className="mt-2 text-right text-xs text-gray-400">
+      {/* 카운트 */}
+      <div className="mt-2 text-right text-xs text-ui-textMuted shrink-0">
         {value.length} / 1000
       </div>
 
-
+      {/* 버튼 */}
       <button
         disabled={loading}
         onClick={() => onRewrite(value)}
         className="
-          mt-4
-          h-[70px]
-          w-full
-          rounded-[20px]
-          px-8
-          text-sm
-          font-medium
-          text-white
-          flex items-center justify-center gap-2
-
-          bg-gradient-to-b
-            from-[#6A3AF6]
-            to-[#4B1FD1]
-         shadow-[0_8px_20px_rgba(139,92,246,0.35),inset_0_1px_2px_rgba(255,255,255,0.35)]
-
-          hover:brightness-105
-          active:translate-y-[1px]
-
+          mt-6
+          h-[55px]
+          shrink-0             /*버튼 높이 고정 */
+          rounded-[15px]
+          bg-[#EEE9FE]
+          text-[18px]
+          font-bold
+          text-[#5527F5]
           disabled:opacity-50
           disabled:cursor-not-allowed
         "

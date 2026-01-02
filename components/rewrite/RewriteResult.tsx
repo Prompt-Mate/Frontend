@@ -1,3 +1,4 @@
+// components/rewrite/RewriteResult.tsx
 "use client";
 
 interface Props {
@@ -7,27 +8,19 @@ interface Props {
 
 export default function RewriteResult({ result, loading }: Props) {
   return (
-    <div className="h-full rounded-[30px] border bg-[#F8FAFC] p-6">
-      <h2 className="mb-3 text-sm font-semibold">리라이팅 결과</h2>
+    <div className="flex flex-col min-h-[481px] rounded-[30px] bg-[radial-gradient(...)] p-8">
+  {/* 헤더 */}
+  <div className="flex items-center h-[32px]">
+    <h2 className="text-[24px] font-bold text-ui-text">
+      리라이팅 결과
+    </h2>
+  </div>
 
-      {loading && (
-        <p className="text-sm text-gray-400">리라이팅 중입니다...</p>
-      )}
-
-      {!loading && !result && (
-        <p className="text-sm text-gray-400">아직 결과가 없습니다.</p>
-      )}
-
-      {!loading && result && (
-        <div className="whitespace-pre-line text-sm leading-relaxed text-gray-800">
-        
-
-          {"\n\n"}
-          {result}
-
-        
-        </div>
-      )}
+      <div className="mt-6 flex-1 whitespace-pre-line text-ui-text">
+        {loading && "리라이팅 중입니다..."}
+        {!loading && !result && "아직 결과가 없습니다."}
+        {!loading && result}
+      </div>
     </div>
   );
 }
