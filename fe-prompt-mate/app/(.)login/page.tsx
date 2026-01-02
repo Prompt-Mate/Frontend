@@ -1,8 +1,10 @@
+// 인터셉팅 라우트 - 실제 로그인 페이지를 렌더링하되 모달도 함께 표시
 import KakaoLoginButton from "@/components/auth/KakaoLoginButton";
 import KakaoSignupButton from "@/components/auth/KakaoSignupButton";
 import Link from "next/link";
 
-export default function LoginPage() {
+export default function LoginInterceptPage() {
+  // 실제 로그인 페이지 내용을 렌더링 (모달은 @modal 슬롯에서 표시됨)
   return (
     <div className="min-h-screen flex flex-col">
       {/* Main */}
@@ -40,3 +42,4 @@ export default function LoginPage() {
     </div>
   );
 }
+
