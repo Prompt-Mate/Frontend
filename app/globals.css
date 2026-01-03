@@ -1,0 +1,33 @@
+/* app/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 기본 리셋 */
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-weight: 400;
+}
+
+/* 기본 타이포 */
+h1,
+h2,
+h3 {
+  font-weight: 900;
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+:root {
+    --gray-grey-4: #F1F5F9;
+    --ui-surface: #FBFCFD;
+}
