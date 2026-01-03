@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { saveAuthData, type AuthResponse } from "@/lib/auth";
-import { apiGet } from "@/lib/api";
+import {apiGet, apiPost} from "@/lib/api";
 
 export default function LoginSuccessPage() {
   const router = useRouter();
@@ -40,12 +40,12 @@ export default function LoginSuccessPage() {
     // 1. 프론트엔드 → /login/oauth2/kakao (프론트엔드 라우트)
     // 2. 프론트엔드 → 카카오 인증 페이지 (redirect_uri: http://localhost:3000/login/success)
     // 3. 카카오 → 프론트엔드(http://localhost:3000/login/success?code=xxx)
-    // 4. 프론트엔드 → 백엔드 API(GET /login/oauth2/kakao?code=xxx) → JWT 토큰 받기
+    // 4. 프론트엔드 → 백엔드 API(GET /api/auth/login/kakao?code=xxx) → JWT 토큰 받기
     const exchangeCodeForToken = async () => {
       try {
         // config에서 API Base URL을 가져와서 사용
-        const authData = await apiGet<AuthResponse>(
-          `/login/oauth2/kakao?code=${code}`
+        const authData = await apiPost<AuthResponse>(
+          `/api/auth/login/kakao?code=${code}`
         );
         
         // 토큰 및 사용자 정보 저장

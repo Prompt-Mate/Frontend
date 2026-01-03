@@ -9,7 +9,7 @@ export const config = {
   // 개발: http://localhost:8080
   // 배포: http://15.164.131.214:8080
   // 환경 변수로 명시적으로 설정 필요
-  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "http://15.164.131.214:8080",
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8081",
 
   // 프론트엔드 URL
   frontendUrl:
