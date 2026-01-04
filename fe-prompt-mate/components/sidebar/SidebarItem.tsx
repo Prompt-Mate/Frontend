@@ -31,9 +31,11 @@ export default function SidebarItem({
                      isActive ? "bg-[#F1F5F9]" : "bg-transparent",
                 ].join(" ")}
             >
-                <span className="w-5 h-5 shrink-0 text-ui-icon flex items-center justify-center">
-          {icon}
-        </span>
+               <span className="w-7 h-7 shrink-0 text-ui-icon flex items-center justify-center
+                [&>svg]:block [&>svg]:w-full [&>svg]:h-full">
+                  {icon}
+                </span>
+
 
                 <span className="min-w-0 flex-1 text-[18px] text-ui-textMuted truncate">
           {label}
