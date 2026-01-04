@@ -1,8 +1,15 @@
+"use client";
+
 import UserIcon from "@/assets/icons/fluent_person-20-filled.svg"
 import BellIcon from "@/assets/icons/bell.svg"
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
 
 export default function Header() {
+    const router = useRouter();
+    const { isAuth, user, logout } = useAuth();
+
     return (
         <header className="flex h-[56px] items-center justify-between px-8 border-b">
             <span className="text-[18px] font-bold">PromMate</span>
