@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { pretendard } from "./fonts/fonts";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import Header from "@/components/Header";
 import { AuthProvider } from "@/contexts/AuthContext";
 

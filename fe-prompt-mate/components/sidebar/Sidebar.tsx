@@ -1,4 +1,4 @@
-import SidebarItem from "@/components/SidebarItem";
+import SidebarItem from "@/components/sidebar/SidebarItem";
 import HomeIcon from "@/assets/icons/solar_home-2-linear.svg";
 import PromptIcon from "@/assets/icons/frame-62.svg";
 import PromptCommunityIcon from "@/assets/icons/frame-64.svg";
