@@ -2,6 +2,7 @@ import {HeroCard} from "@/components/dashboard/HeroCard";
 import {WeeklyScoreCard} from "@/components/dashboard/WeeklyScoreCard";
 import {PopularPromptsCard} from "@/components/dashboard/PopularPromptsCard";
 import {RecentPromptsCard} from "@/components/dashboard/RecentPromptsCard";
+import {CommunityHeader} from "@/components/community/CommunityHeader";
 export default function HomePage(){
     return(
         <section
@@ -11,6 +12,7 @@ export default function HomePage(){
     space-y-[20px]
   "
         >
+            <CommunityHeader />
             {/* 1행: Hero(작게) / Weekly(크게) */}
             <div className="grid gap-[20px] grid-cols-1 lg:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
                 <HeroCard />
