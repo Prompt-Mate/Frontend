@@ -53,19 +53,22 @@ export function WeeklyScoreCard() {
                 </div>
 
                 {/* bars */}
-                <div className="absolute left-[34px] right-[0px] top-[6px] bottom-[24px] flex items-end justify-between">
+                <div className="absolute left-[34px] right-0 top-[6px] bottom-[24px] flex items-end justify-between">
                     {SAMPLE.map((d, idx) => {
-                        const h = Math.round((d.score / max) * 100);
+                        const h = d.score; // 이미 0~100 값이면 그대로 %
                         const isActive = idx === hoverIdx;
+
                         return (
                             <div
                                 key={d.day}
-                                className="relative flex w-[56px] flex-col items-center"
+                                className="relative h-full w-[56px]"
                                 onMouseEnter={() => setHoverIdx(idx)}
                                 onMouseLeave={() => setHoverIdx(3)}
                             >
+                                {/* 채워지는 bar: 항상 바닥에서 시작 */}
                                 <div
                                     className={[
+                                        "absolute bottom-0 left-1/2 -translate-x-1/2",
                                         "w-[40px] rounded-[12px]",
                                         "bg-[rgba(148,163,184,0.18)]",
                                         "transition-all duration-150",
@@ -74,15 +77,21 @@ export function WeeklyScoreCard() {
                                             : "",
                                     ].join(" ")}
                                     style={{ height: `${h}%` }}
-                                >
-                                    {isActive && (
-                                        <div className="absolute left-1/2 top-[-6px] h-[6px] w-[6px] -translate-x-1/2 rounded-full bg-[#6D5EF6]" />
-                                    )}
-                                </div>
+                                />
+
+                                {/* active dot: bar의 꼭대기(= bottom + height)에 붙여야 함 */}
+                                {isActive && (
+                                    <div
+                                        className="absolute left-1/2 -translate-x-1/2 h-[6px] w-[6px] rounded-full bg-[#6D5EF6]"
+                                        style={{ bottom: `calc(${h}% - 6px)` }} // dot이 bar 위에 걸치게
+                                    />
+                                )}
                             </div>
                         );
                     })}
                 </div>
+
+
 
                 {/* x labels */}
                 <div className="absolute left-[34px] right-[0px] bottom-[0px] flex justify-between">

@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { pretendard } from "./fonts/fonts";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/sidebar/Sidebar";
 import Header from "@/components/Header";
 import { AuthProvider } from "@/contexts/AuthContext";
 
@@ -20,17 +20,22 @@ export default function RootLayout({
 }) {
     return (
         <html lang="ko" className={pretendard.variable}>
-        <body className="flex">
+        <body className="min-h-screen">
         <AuthProvider>
-            <Sidebar />
-
-            <div className="flex flex-1 flex-col">
+            {/* 1) 전체를 세로로 쌓기 */}
+            <div className="flex min-h-screen flex-col">
+                {/* 헤더는 위 */}
                 <Header />
-                <main className="flex-1">
-                    {children}
-                </main>
+
+                {/* 2) 헤더 아래 영역: 가로로 Sidebar | Main */}
+                <div className="flex flex-1 min-h-0">
+                    <Sidebar />
+
+                    <main className="flex-1 min-h-0 overflow-y-auto">
+                        {children}
+                    </main>
+                </div>
             </div>
-            
             {modal}
         </AuthProvider>
         </body>

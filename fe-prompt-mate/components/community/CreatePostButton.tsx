@@ -6,7 +6,7 @@ export function CreatePostButton() {
             href="/community/new"
             className="
         flex h-[55px] shrink-0 items-center justify-center gap-2
-        rounded-[16px] bg-primary px-6
+        rounded-[16px] bg-[#5527F5] px-6
         text-body font-semibold text-white
         shadow-sm
         hover:opacity-95 active:opacity-90
