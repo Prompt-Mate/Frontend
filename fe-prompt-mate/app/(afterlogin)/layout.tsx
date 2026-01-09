@@ -7,11 +7,13 @@ export default function AfterLoginLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen bg-ui-background">
       <Sidebar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 min-h-0 overflow-y-auto">
+        {children}
+      </main>
     </div>
   );
 }
 
-// afterlogin 안의 모든 페이지는 사이드바를 공통으로 사용한다
+// 이 레이아웃은 afterlogin 안의 모든 페이지에 공통으로 적용되며, 사이드바를 포함합니다.
