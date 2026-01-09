@@ -16,4 +16,4 @@ export default function BeforeLoginLayout({
   );
 }
 
-// 이 레이아웃은 beforelogin 안의 모든 페이지에 공통으로 적용되며, 헤더를 포함합니다.
+// 이 레이아웃은 beforelogin 안의 모든 페이지에 공통으로 적용, 헤더 포함

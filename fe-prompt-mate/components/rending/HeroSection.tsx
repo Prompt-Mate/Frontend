@@ -21,18 +21,17 @@ export default function HeroSection() {
         <UnionIcon className="mb-6 h-6 w-6 text-[#5527F5]" />
 
         <h1 className="text-[72px] font-bold leading-[110%] text-[#7A6BF2]">
-          PromptMate
+          PromMate
         </h1>
 
         <p className="mt-[49px] text-[25px] font-semibold leading-[138%] text-[#111]">
           더 나은 AI 창작물을, 더 쉽게
           <br />
-          PromptMate와 함께 당신의 아이디어를 완성하세요.
+          PromMate와 함께 당신의 아이디어를 완성하세요.
         </p>
 
         <p className="mt-[23px] text-[20px] leading-[120%] text-[#6C6F79]">
           Refine your prompts, Amplify your creativity.
-          <br />
           PromptMate, your AI co-creator.
         </p>
 

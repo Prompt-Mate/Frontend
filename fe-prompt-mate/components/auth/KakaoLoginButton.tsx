@@ -1,10 +1,16 @@
+// components/auth/KakaoLoginButton.tsx
 "use client";
 
 import KakaoIcon from "@/assets/icons/kakao.svg";
+import { useRouter } from "next/navigation";
 
 export default function KakaoLoginButton() {
+  const router = useRouter();
+
   const handleKakaoLogin = () => {
-    window.location.href = "http://localhost:8080/oauth/kakao";
+    // 프론트엔드 라우트로 이동
+    // /login/oauth2/kakao 페이지에서 카카오 인증 URL 생성 후 리다이렉트
+    router.push("/login/oauth2/kakao");
   };
 
   return (
