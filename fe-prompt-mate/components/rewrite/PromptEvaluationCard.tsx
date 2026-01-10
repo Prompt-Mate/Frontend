@@ -1,6 +1,6 @@
-import {EvaluationHeader} from "@/components/EvaluationHeader";
-import {EvaluationDetails} from "@/components/EvaluationDetails";
-import {EvaluationOverview} from "@/components/EvaluationOverview";
+import {EvaluationHeader} from "@/components/rewrite/EvaluationHeader";
+import {EvaluationDetails} from "@/components/rewrite/EvaluationDetails";
+import {EvaluationOverview} from "@/components/rewrite/EvaluationOverview";
 
 export function PromptEvaluationCard() {
     return (

@@ -19,7 +19,7 @@ export default function HomePage() {
       <Section3 />
 
       {/* SECTION 4 : 프롬프트 평가 섹션 */}
-      <Section4/ >
+      <Section4 />
 
       {/* SECTION 5 : 프롬프트 커뮤니티 섹션 */}  
       <Section5 />
