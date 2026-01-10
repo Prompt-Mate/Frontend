@@ -1,3 +1,4 @@
+// components/auth/KakaoLoginButton.tsx
 "use client";
 
 import KakaoIcon from "@/assets/icons/kakao.svg";
