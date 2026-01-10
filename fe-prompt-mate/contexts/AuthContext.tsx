@@ -25,10 +25,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   const refreshAuth = () => {
-    const auth = isAuthenticated();
-    const userInfo = getUserInfo();
-    setIsAuth(auth);
-    setUser(userInfo);
+    // const auth = isAuthenticated();
+    // const userInfo = getUserInfo();
+    // setIsAuth(auth);
+    // setUser(userInfo);
   };
 
   const logout = () => {

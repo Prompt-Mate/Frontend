@@ -17,11 +17,11 @@ export function middleware(request: NextRequest) {
 
   // 보호된 페이지에 접근하려고 할 때
   if (protectedPaths.some((path) => pathname.startsWith(path))) {
-    if (!isAuthenticated) {
-      // 로그인 페이지로 리다이렉트 (인터셉팅 라우트가 모달을 표시함)
-      const loginUrl = new URL("/login", request.url);
-      return NextResponse.redirect(loginUrl);
-    }
+    // if (!isAuthenticated) {
+    //   // 로그인 페이지로 리다이렉트 (인터셉팅 라우트가 모달을 표시함)
+    //   const loginUrl = new URL("/login", request.url);
+    //   return NextResponse.redirect(loginUrl);
+    // }
   }
 
   return NextResponse.next();
