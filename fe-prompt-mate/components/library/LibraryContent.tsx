@@ -9,11 +9,11 @@ export function LibraryContent({
 }) {
     if (layout === "list") {
         return (
-            <ul className="mt-[12px] divide-y divide-black/5 rounded-[18px] bg-white">
+            <div className="mt-[12px] flex flex-col gap-[12px]">
                 {items.map((it) => (
                     <LibraryItem key={it.id} item={it} layout="list" />
                 ))}
-            </ul>
+            </div>
         );
     }
 
