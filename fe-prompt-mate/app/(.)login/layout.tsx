@@ -1,11 +1,7 @@
-export default function LoginInterceptLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function LoginInterceptLayout(props: any) {
   return (
     <>
-      {children}
+      {props.children}
     </>
   );
 }
