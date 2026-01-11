@@ -2,15 +2,18 @@
 import Sidebar from "@/components/sidebar/Sidebar";
 
 export default function AfterLoginLayout({
-  children,
+    children,
+    modal
 }: {
   children: React.ReactNode;
+    modal: React.ReactNode;
 }) {
   return (
     <div className="flex min-h-screen bg-ui-background">
       <Sidebar />
       <main className="flex-1 min-h-0 overflow-y-auto">
-        {children}
+          {children}
+          {modal}
       </main>
     </div>
   );

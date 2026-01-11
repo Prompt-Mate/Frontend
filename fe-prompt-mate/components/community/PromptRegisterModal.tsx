@@ -97,12 +97,13 @@ export default function PromptRegisterModal({ asPage = false }: { asPage?: boole
         <ModalShell>
             <section
                 className={cn(
-                    "w-full max-w-[760px] overflow-hidden rounded-[28px] bg-white",
-                    "shadow-[0_18px_60px_rgba(15,23,42,0.18)]"
+                    "flex h-[608px] w-full max-w-[738px] flex-col overflow-hidden rounded-[28px] bg-white",
+                    "shadow-[0_18px_60px_rgba(15,23,42,0.18)]",
+                    asPage && "h-full" // 페이지로 쓰일 때 부모 높이를 따라가거나, 위에서 고정한 h-[608px] 사용
                 )}
             >
                 {/* Top padding */}
-                <div className="px-8 pt-10">
+                <div className="flex-1 overflow-y-auto px-8 pt-10 scrollbar-hide">
                     {/* Title row */}
                     <div className="flex items-center justify-between">
                         <h2 className="text-[28px] font-extrabold tracking-[-0.02em] text-black/90">프롬프트 등록하기</h2>
@@ -198,7 +199,7 @@ export default function PromptRegisterModal({ asPage = false }: { asPage?: boole
                 </div>
 
                 {/* Bottom actions */}
-                <div className="mt-8 flex items-center justify-end gap-3 bg-white px-8 pb-8">
+                <div className="flex shrink-0 items-center justify-end gap-3 bg-white px-8 pb-8 pt-6">
                     <button
                         type="button"
                         onClick={close}
