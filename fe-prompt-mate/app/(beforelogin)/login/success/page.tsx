@@ -1,11 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { saveAuthData, type AuthResponse } from "@/lib/auth";
-import {apiGet, apiPost} from "@/lib/api";
+import { apiPost} from "@/lib/api";
 
-export default function LoginSuccessPage() {
+function LoginSuccessContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
@@ -100,3 +100,17 @@ export default function LoginSuccessPage() {
   );
 }
 
+export default function LoginSuccessPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">페이지 로딩 중...</p>
+        </div>
+      </div>
+    }>
+      <LoginSuccessContent />
+    </Suspense>
+  );
+}

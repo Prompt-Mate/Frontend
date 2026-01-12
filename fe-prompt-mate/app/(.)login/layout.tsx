@@ -1,15 +1,7 @@
-export default function LoginInterceptLayout({
-  children,
-  modal,
-}: {
-  children: React.ReactNode;
-  modal: React.ReactNode;
-}) {
+export default function LoginInterceptLayout(props: any) {
   return (
     <>
-      {children}
-      {modal}
+      {props.children}
     </>
   );
 }
-
