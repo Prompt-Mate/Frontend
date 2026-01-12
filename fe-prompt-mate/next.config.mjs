@@ -59,8 +59,9 @@ const nextConfig = {
   async rewrites() {
     return [
       {
+        // 프론트엔드의 /api/.. 요청을 백엔드 서버의 /api/.. 로 전달
         source: "/api/:path*",
-        destination: "http://15.164.131.214:8080/api/:path*",
+        destination: "http://15.164.131.214:8080/:path*",
       },
     ];
   },
