@@ -45,7 +45,7 @@ function LoginSuccessContent() {
       try {
         // config에서 API Base URL을 가져와서 사용
         const authData = await apiPost<AuthResponse>(
-          `/api/auth/login/kakao?code=${code}`
+          `/auth/login/kakao?code=${code}`
         );
         
         // 토큰 및 사용자 정보 저장
