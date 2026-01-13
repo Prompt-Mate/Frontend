@@ -9,7 +9,7 @@ export const config = {
   // 개발: http://localhost:8080
   // 배포: /api (Mixed Content 방지를 위해 Next.js Rewrite 사용)
   // 환경 변수로 명시적으로 설정 필요
-  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8081",
+  apiBaseUrl: process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080",
 
   // 프론트엔드 URL
   frontendUrl:

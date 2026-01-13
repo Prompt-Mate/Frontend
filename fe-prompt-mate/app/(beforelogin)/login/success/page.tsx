@@ -40,12 +40,12 @@ function LoginSuccessContent() {
     // 1. 프론트엔드 → /login/oauth2/kakao (프론트엔드 라우트)
     // 2. 프론트엔드 → 카카오 인증 페이지 (redirect_uri: http://localhost:3000/login/success)
     // 3. 카카오 → 프론트엔드(http://localhost:3000/login/success?code=xxx)
-    // 4. 프론트엔드 → 백엔드 API(GET /api/auth/login/kakao?code=xxx) → JWT 토큰 받기
+    // 4. 프론트엔드 → 백엔드 API(POST /api/auth/login/kakao?code=xxx) → JWT 토큰 받기
     const exchangeCodeForToken = async () => {
       try {
-        // config에서 API Base URL을 가져와서 사용
+        // 백엔드가 @RequestParam으로 받으므로 쿼리 파라미터로 code 전달
         const authData = await apiPost<AuthResponse>(
-          `/auth/login/kakao?code=${code}`
+          `/api/auth/login/kakao?code=${code}`
         );
         
         // 토큰 및 사용자 정보 저장
