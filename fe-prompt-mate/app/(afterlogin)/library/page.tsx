@@ -1,20 +1,13 @@
 // app/(afterlogin)/library/page.tsx
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Container from "@/components/layout/Container";
 
-import { LibraryItemData } from "@/components/library/LibraryItem";
 import { LibraryHeader, LibraryTabKey } from "@/components/library/LibraryHeader";
 import { LibraryMeta } from "@/components/library/LibraryMeta";
 import { LibraryContent } from "@/components/library/LibraryContent";
-
-const MOCK: LibraryItemData[] = [
-  { id: "1", date: "25.11.13", title: "심리학 코알 보고서 초고", platform: "Chat GPT", kind: "보고서", progress: 70 },
-  { id: "2", date: "25.11.10", title: "시장 리포트 요약 자동화", platform: "Claude", kind: "요약", progress: 55 },
-  { id: "3", date: "25.11.13", title: "미드저니 검은 고양이 이미지", platform: "Midjourney", kind: "이미지", progress: 88 },
-  { id: "4", date: "25.11.13", title: "PPT 개요 작성", platform: "Chat GPT", kind: "문서작성", progress: 40 },
-];
+import { useLibraryData } from "@/hooks/useLibraryData";
 
 // 탭별 레이아웃
 const TAB_LAYOUT: Record<LibraryTabKey, "list" | "grid"> = {
@@ -29,11 +22,8 @@ export default function LibraryPage() {
 
   const layout = TAB_LAYOUT[tab];
 
-  const items = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    if (!q) return MOCK;
-    return MOCK.filter((x) => x.title.toLowerCase().includes(q));
-  }, [search]);
+  // 커스텀 훅 사용: 로직이 숨겨져서 코드가 훨씬 깔끔해집니다.
+  const { items, totalCount, totalPages } = useLibraryData(tab, search);
 
   return (
     <Container>
@@ -46,7 +36,7 @@ export default function LibraryPage() {
         />
 
         <div className="space-y-4">
-          <LibraryMeta totalCount={items.length} page={1} totalPages={1} />
+          <LibraryMeta totalCount={totalCount} page={1} totalPages={totalPages} />
           <LibraryContent items={items} layout={layout} />
         </div>
       </section>
