@@ -1,5 +1,5 @@
 import { PageTitleBlock } from "./PageTitleBlock";
-import { TagChip } from "./TagChip";
+import { TagChip } from "../TagChip";
 
 export function EvaluationSectionHeader() {
     return (

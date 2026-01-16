@@ -1,3 +1,5 @@
+// app/(beforelogin)/login/page.tsx
+
 import KakaoLoginButton from "@/components/auth/KakaoLoginButton";
 import KakaoSignupButton from "@/components/auth/KakaoSignupButton";
 import Link from "next/link";
@@ -5,14 +7,6 @@ import Link from "next/link";
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex flex-col">
-      
-      {/* Header */}
-      <header className="h-[85px] border-b border-[rgba(217,221,224,0.7)] px-8 flex items-center">
-        <span className="text-[27px] font-bold text-[#343434]">
-          PromMate
-        </span>
-      </header>
-
       {/* Main */}
       <main className="flex flex-1 flex-col items-center justify-center gap-10">
         <div className="text-center">

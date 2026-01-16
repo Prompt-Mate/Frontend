@@ -1,8 +1,7 @@
-// components/rewrite/RewriteArrow.tsx
 export default function RewriteArrow() {
   return (
-    <div className="flex items-center justify-center">
-      <div className="flex h-10 w-10 items-center justify-center rounded-full border bg-white text-gray-400">
+    <div className="flex items-start justify-center pt-[8px]">
+      <div className="flex h-9 w-9 items-center justify-center rounded-md border bg-white text-ui-icon shadow-sm">
         ⇄
       </div>
     </div>

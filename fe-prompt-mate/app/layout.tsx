@@ -2,33 +2,30 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { pretendard } from "./fonts/fonts";
-import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
-    title: "Prompt Mate",
-    description: "FE Prompt Mate App",
+  title: "Prompt Mate",
+  description: "FE Prompt Mate App",
 };
 
 export default function RootLayout({
-                                       children,
-                                   }: {
-    children: React.ReactNode;
+  children,
+  modal,
+}: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
 }) {
-    return (
-        <html lang="ko" className={pretendard.variable}>
-        <body className="flex">
-
-        <Sidebar />
-
-        <div className="flex flex-1 flex-col">
-            <Header />
-            <main className="flex-1">
-                {children}
-            </main>
-        </div>
-        </body>
-
-        </html>
-    );
+  return (
+    <html lang="ko" className={pretendard.variable}>
+      <body className="min-h-screen">
+        <AuthProvider>
+          {children}
+          {modal}
+        </AuthProvider>
+      </body>
+    </html>
+  );
 }
+
+// 이 레이아웃은 모든 페이지에 공통으로 적용
