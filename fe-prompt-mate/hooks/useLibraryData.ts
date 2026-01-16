@@ -1,7 +1,26 @@
 import { useState, useEffect } from "react";
 import { LibraryItemData } from "@/components/library/LibraryItem";
+import { apiGet } from "@/lib/api";
 
 type LibraryTabKey = "saved" | "mine" | "liked";
+
+interface LibraryContentItem {
+  id: number;
+  userId: number;
+  rewriteResultId: number;
+  savedTitle: string;
+  content: string;
+  platform: string;
+  category: string;
+  createdAt: string;
+}
+
+interface LibraryResponse {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: LibraryContentItem[];
+}
 
 export function useLibraryData(tab: LibraryTabKey, search: string) {
   const [items, setItems] = useState<LibraryItemData[]>([]);
@@ -21,17 +40,14 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
         if (tab === "mine") {
           const queryParams = new URLSearchParams({
             page: "0",
-            size: "10",
+            size: "12",
           });
           if (search) queryParams.append("keyword", search);
 
-          const res = await fetch(`/api/libraries/my?${queryParams}`, { signal });
-          if (!res.ok) throw new Error("Failed to fetch");
-
-          const data = await res.json();
+          const data = await apiGet<LibraryResponse>(`/api/libraries/my?${queryParams}`, { signal });
 
           // 데이터 매핑
-          const mappedItems: LibraryItemData[] = data.content.map((item: any) => ({
+          const mappedItems: LibraryItemData[] = data.content.map((item) => ({
             id: String(item.id),
             // 날짜 포맷팅: 2026-01-11... -> 26.01.11
             date: new Date(item.createdAt)
