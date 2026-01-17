@@ -67,7 +67,7 @@ export default function PromptInput({ onRewrite, loading }: Props) {
           disabled:cursor-not-allowed
         "
       >
-        ✨ 프롬프트 다듬기
+        프롬프트 다듬기
       </button>
     </div>
   );
