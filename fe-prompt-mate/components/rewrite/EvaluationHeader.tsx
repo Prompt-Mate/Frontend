@@ -2,7 +2,11 @@ import  Union  from "@/assets/icons/Union.svg";
 import {IconButton} from "@/components/IconButton";
 import ScreenFullIcon from "@/assets/icons/iconamoon_screen-full-light.svg"
 
-export function EvaluationHeader() {
+interface EvaluationHeaderProps {
+  summaryFeedback?: string;
+}
+
+export function EvaluationHeader({ summaryFeedback }: EvaluationHeaderProps) {
     return (
         <section className="space-y-4">
             <div className="flex items-center gap-3">
@@ -18,9 +22,7 @@ export function EvaluationHeader() {
             <div className="grid grid-cols-[24px_1fr] gap-3">
                 <div />
                 <p className="text-sectionTitle font-bold text-ui-text leading-[1.44]">
-                    테이님은 창의적인 컨셉을 잘 활용하고 계시네요!
-                    <br />
-                    조명 조건을 조금만 명확히 하면 AI가 의도를 훨씬…
+                    {summaryFeedback || "프롬프트를 평가하기 위해 먼저 프롬프트를 입력해주세요."}
                 </p>
             </div>
         </section>
