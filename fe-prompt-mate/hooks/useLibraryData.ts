@@ -1,94 +1,95 @@
-import { useMemo } from "react";
-import type { LibraryTabKey } from "@/components/library/LibraryHeader";
-import type { LibraryItemData } from "@/components/library/LibraryItem";
+import { useState, useEffect } from "react";
+import { LibraryItemData } from "@/components/library/LibraryItem";
+import { apiGet } from "@/lib/api";
 
-type Return = {
-  items: LibraryItemData[];
-  totalCount: number;
+type LibraryTabKey = "saved" | "mine" | "liked";
+
+interface LibraryContentItem {
+  id: number;
+  userId: number;
+  rewriteResultId: number;
+  savedTitle: string;
+  content: string;
+  platform: string;
+  category: string;
+  createdAt: string;
+}
+
+interface LibraryResponse {
   totalPages: number;
-};
+  totalElements: number;
+  size: number;
+  content: LibraryContentItem[];
+}
 
-const MOCK_SAVED: LibraryItemData[] = [
-  {
-    id: "s1",
-    date: "25.11.13",
-    title: "심리학 코알 보고서 초고",
-    platform: "chatgpt",
-    category: "productivity",
-    tag: "보고서",
-    progress: 70,
-  },
-  {
-    id: "s2",
-    date: "25.11.10",
-    title: "시장 리포트 요약 자동화",
-    platform: "claude",
-    category: "study",
-    tag: "요약",
-    progress: 55,
-  },
-  {
-    id: "s3",
-    date: "25.11.13",
-    title: "미드저니 검은 고양이 이미지",
-    platform: "midjourney",
-    category: "content",
-    tag: "이미지",
-    progress: 88,
-  },
-];
+export function useLibraryData(tab: LibraryTabKey, search: string) {
+  const [items, setItems] = useState<LibraryItemData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
-const MOCK_MINE: LibraryItemData[] = [
-  {
-    id: "m1",
-    date: "25.11.13",
-    title: "PPT 개요 작성",
-    platform: "chatgpt",
-    category: "productivity",
-    tag: "문서작성",
-  },
-  {
-    id: "m2",
-    date: "25.11.12",
-    title: "회의 요약 템플릿",
-    platform: "claude",
-    category: "productivity",
-    tag: "회의록",
-  },
-];
+  useEffect(() => {
+    // 1. AbortController 생성 (이전 요청 취소용)
+    const controller = new AbortController();
+    const signal = controller.signal;
 
-const MOCK_LIKED: LibraryItemData[] = [
-  {
-    id: "l1",
-    date: "25.11.09",
-    title: "여행 일정 자동 생성 프롬프트",
-    platform: "chatgpt",
-    category: "daily",
-    tag: "여행",
-  },
-];
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // 예시: mine 탭일 때만 API 호출 (다른 탭 로직도 여기에 추가 가능)
+        if (tab === "mine") {
+          const queryParams = new URLSearchParams({
+            page: "0",
+            size: "12",
+          });
+          if (search) queryParams.append("keyword", search);
 
-export function useLibraryData(tab: LibraryTabKey, search: string): Return {
-  return useMemo(() => {
-    const base =
-      tab === "saved" ? MOCK_SAVED : tab === "mine" ? MOCK_MINE : MOCK_LIKED;
+          const data = await apiGet<LibraryResponse>(`/api/libraries/my?${queryParams}`, { signal });
 
-    const q = search.trim().toLowerCase();
-    const filtered = !q
-      ? base
-      : base.filter((x) => {
-          return (
-            x.title.toLowerCase().includes(q) ||
-            x.tag.toLowerCase().includes(q) ||
-            x.platform.toLowerCase().includes(q)
-          );
-        });
+          // 데이터 매핑
+          const mappedItems: LibraryItemData[] = data.content.map((item) => ({
+            id: String(item.id),
+            // 날짜 포맷팅: 2026-01-11... -> 26.01.11
+            date: new Date(item.createdAt)
+              .toLocaleDateString("ko-KR", {
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\./g, "")
+              .replace(/ /g, "."),
+            title: item.savedTitle,
+            content: item.content,
+            platform: item.platform as LibraryItemData["platform"],
+            category: item.category as LibraryItemData["category"],
+            tag: "기타", // API에 tag가 없어서 임시 값 설정
+            progress: 0, // API에 없으면 기본값
+          }));
 
-    // ✅ 일단 페이지네이션은 “1페이지 고정”으로 안전하게
-    return {
-      items: filtered,
-      totalCount: filtered.length,
-      totalPages: 1,
+          setItems(mappedItems);
+          setTotalCount(data.totalElements || 0);
+          setTotalPages(data.totalPages || 0);
+        } else {
+          // 다른 탭(saved, liked)은 아직 MOCK 데이터 사용 예시
+          setItems([]);
+          setTotalCount(0);
+        }
+      } catch (error: any) {
+        if (error.name === "AbortError") {
+          console.log("요청이 취소되었습니다.");
+          return;
+        }
+        console.error("데이터 로딩 실패:", error);
+      } finally {
+        if (!signal.aborted) setLoading(false);
+      }
     };
+
+    fetchData();
+
+    // Cleanup: 탭이나 검색어가 바뀌면 이전 요청 취소
+    return () => controller.abort();
   }, [tab, search]);
+
+  return { items, loading, totalCount, totalPages };
 }
