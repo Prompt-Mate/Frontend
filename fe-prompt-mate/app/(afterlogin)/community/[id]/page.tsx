@@ -14,10 +14,8 @@ export default function CommunityDetailPage() {
         <Container>
             <section className= "mt-4">
                 <PromptDetailView/>
-                <div className="mt-[14px]">
                     <PostMetaBar />
-                </div>
-                <div className="mt-[48px] flex flex-col gap-[48px] px-2">
+                <div className="px-2 mt-4">
                     <SectionTitle
                         icon={<MenuIcon />}
                         title="프롬프트 내용"
@@ -33,7 +31,7 @@ export default function CommunityDetailPage() {
                 <div className="mt-[40px]">
                     <CommentComposer/>
                 </div>
-                <div className="mt-[70px]">
+                <div className="mt-[70px] mb-[30px]">
                     <CommentList />
                 </div>
 
