@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import StarIcon from "@/assets/icons/StarPrompt.svg";
 
 interface Props {
   onRewrite: (text: string) => void;
@@ -52,23 +53,31 @@ export default function PromptInput({ onRewrite, loading }: Props) {
 
       {/* 버튼 */}
       <button
-        disabled={loading}
-        onClick={() => onRewrite(value)}
-        className="
-          mt-6
-          h-[55px]
-          shrink-0             /*버튼 높이 고정 */
-          rounded-[15px]
-          bg-[#EEE9FE]
-          text-[18px]
-          font-bold
-          text-[#5527F5]
-          disabled:opacity-50
-          disabled:cursor-not-allowed
-        "
-      >
-        프롬프트 다듬기
-      </button>
+  disabled={loading}
+  onClick={() => onRewrite(value)}
+  className="
+    mt-6
+    h-[55px]
+    px-6
+    flex items-center justify-center gap-2
+    shrink-0
+    rounded-[15px]
+    bg-[#5527F5]
+    text-[18px]
+    font-bold
+    text-white
+    shadow-[0_0_12px_rgba(255,255,255,0.80)_inset]
+      hover:brightness-[1.03]
+      active:brightness-[0.97]
+      transition
+    disabled:opacity-50
+    disabled:cursor-not-allowed
+  "
+>
+  <StarIcon className="h-[20px] w-[20px]" />
+  <span>프롬프트 다듬기</span>
+</button>
+
     </div>
   );
 }
