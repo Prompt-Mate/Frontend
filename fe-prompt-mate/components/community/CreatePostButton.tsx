@@ -6,10 +6,12 @@ export function CreatePostButton() {
             href="/community/new"
             className="
         flex h-[55px] shrink-0 items-center justify-center gap-2
-        rounded-[16px] bg-[#5527F5] px-6
+        rounded-[15px] bg-[#5527F5] px-6
         text-body font-semibold text-white
-        shadow-sm
-        hover:opacity-95 active:opacity-90
+        shadow-[0_0_12px_rgba(255,255,255,0.80)_inset]
+      hover:brightness-[1.03]
+      active:brightness-[0.97]
+      transition
       "
         >
             <PlusIcon className="h-5 w-5" />

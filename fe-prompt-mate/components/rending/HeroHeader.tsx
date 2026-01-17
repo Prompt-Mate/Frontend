@@ -3,7 +3,7 @@
 import Link from "next/link";
 
 /** SVG */
-import UnionIcon from "@/assets/icons/Union.svg";
+import PromMateIcon from "@/assets/icons/PromMate.svg";
 
 export default function HeroHeader() {
   return (
@@ -20,8 +20,8 @@ export default function HeroHeader() {
       >
         {/* 로고 영역 */}
         <Link href="/" className="flex items-center gap-[10px]">
-          <UnionIcon className="h-[28px] w-[28px]" />
-          <span className="text-[18px] font-bold text-[#111111]">
+          <PromMateIcon className="h-[65px] w-[65px]" />
+          <span className="text-[27px] font-semibold text-[#111111]">
             PromMate
           </span>
         </Link>

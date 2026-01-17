@@ -25,7 +25,7 @@ export function LibraryHeader({
   return (
     <header>
       {/* 검색 */}
-      <div className="flex h-[55px] items-center gap-[12px] rounded-[15px] bg-[#F8FAFC] px-[15px]">
+      <div className="flex h-[55px] items-center gap-[12px] rounded-[15px] bg-[#F8FAFC] px-[15px] ">
         <SearchIcon />
         <input
           value={search}

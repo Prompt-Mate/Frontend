@@ -22,6 +22,10 @@ export default function SaveButton({ disabled, onClick }: Props) {
         text-[18px]
         font-bold
         text-[#5527F5]
+        shadow-[0_0_12px_rgba(255,255,255,0.80)_inset]
+      hover:brightness-[1.03]
+      active:brightness-[0.97]
+      transition
       "
     >
       저장하기

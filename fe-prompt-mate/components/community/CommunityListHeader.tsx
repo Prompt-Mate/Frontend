@@ -33,7 +33,7 @@ function SortTabs({
     const tabs: Array<typeof value> = ["최신순", "추천순", "조회순", "좋아요"];
 
     return (
-        <div className="flex items-center gap-3 text-body">
+        <div className="flex items-center gap-3 text-[14px]">
             {tabs.map((t) => {
                     const active = value === t;
                     return (
