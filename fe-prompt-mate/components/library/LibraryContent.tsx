@@ -1,4 +1,4 @@
-import { LibraryItem, type LibraryItemData } from "@/components/library/LibraryItem";
+import {LibraryItem, LibraryItemData} from "@/components/library/LibraryItem";
 
 export function LibraryContent({
   items,
