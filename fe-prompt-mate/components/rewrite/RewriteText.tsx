@@ -6,7 +6,7 @@ import PromptInput from "./PromptInput";
 import RewriteResult from "./RewriteResult";
 import RewriteArrow from "./RewriteArrow";
 import SaveButton from "./SaveButton";
-import { rewritePrompt } from "@/lib/rewrite";
+import { rewritePrompt } from "@/services/rewrite";
 
 interface RewriteTextProps {
   onComplete?: () => void;      // ✅ 리라이팅 완료 알림 (기존 그대로)
