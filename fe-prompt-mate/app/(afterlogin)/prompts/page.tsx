@@ -20,8 +20,12 @@ export default function PromptsPage() {
           onSaveClick={() => setIsSaveOpen(true)}
           onJudgeComplete={(result) => setJudgeResult(result)}
         />
-        <EvaluationSectionHeader />
-        <PromptEvaluationCard judgeResult={judgeResult} />
+        {judgeResult && (
+          <>
+            <EvaluationSectionHeader />
+            <PromptEvaluationCard judgeResult={judgeResult} />
+          </>
+        )}
       </section>
 
       {isSaveOpen && <SavePromptModal onClose={() => setIsSaveOpen(false)} />}
