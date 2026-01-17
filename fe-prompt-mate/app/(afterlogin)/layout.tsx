@@ -1,4 +1,4 @@
-// app/(afterlogin)/layout.tsx
+import Header from "@/components/Header";
 import Sidebar from "@/components/sidebar/Sidebar";
 
 export default function AfterLoginLayout({
@@ -9,12 +9,16 @@ export default function AfterLoginLayout({
     modal: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-ui-background">
-      <Sidebar />
-      <main className="flex-1 min-h-0 overflow-y-auto">
-          {children}
-          {modal}
-      </main>
+    <div className="flex min-h-screen flex-col">
+      <Header />
+
+      <div className="flex flex-1 min-h-0">
+        <Sidebar />
+        <main className="flex-1 overflow-y-auto">
+            {children}
+            {modal}
+        </main>
+      </div>
     </div>
   );
 }

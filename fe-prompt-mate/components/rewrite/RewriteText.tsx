@@ -1,5 +1,4 @@
-//app/components/rewrite/RewriteText.tsx
-
+// app/components/rewrite/RewriteText.tsx
 "use client";
 
 import { useState } from "react";
@@ -10,10 +9,11 @@ import SaveButton from "./SaveButton";
 import { rewritePrompt } from "@/lib/rewrite";
 
 interface RewriteTextProps {
-  onComplete?: () => void; 
+  onComplete?: () => void;      // ✅ 리라이팅 완료 알림 (기존 그대로)
+  onSaveClick?: () => void;     // ✅ 저장하기 버튼 클릭 (추가)
 }
 
-export default function RewriteText({ onComplete }: RewriteTextProps) {
+export default function RewriteText({ onComplete, onSaveClick }: RewriteTextProps) {
   const [result, setResult] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -27,12 +27,19 @@ export default function RewriteText({ onComplete }: RewriteTextProps) {
     setResult(rewritten);
     setLoading(false);
 
-    // 다듬기 → page에 알림
+    // 다듬기 완료 → page에 알림
     onComplete?.();
   };
 
+  const handleSave = () => {
+    // ✅ 결과 없으면 저장 버튼 동작 X (안전)
+    if (!result) return;
+
+    console.log("SAVE CLICK IN RewriteText");
+    onSaveClick?.(); // ✅ page에서 모달 open 시키는 함수가 여기로 들어옴
+  };
+
   return (
-    /* 한 화면 기준 컨테이너 */
     <section
       className="
         max-w-[1200px]
@@ -54,18 +61,14 @@ export default function RewriteText({ onComplete }: RewriteTextProps) {
 
       {/* 카드 영역 */}
       <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-8 flex-1">
-        {/* 왼쪽: PromptInput */}
         <PromptInput onRewrite={handleRewrite} loading={loading} />
-
-        {/* 가운데: 화살표 */}
         <RewriteArrow />
 
-        {/* 오른쪽: Result + Save */}
         <div className="flex flex-col h-full">
           <RewriteResult result={result} loading={loading} />
 
           <div className="mt-6 flex justify-end">
-            <SaveButton disabled={!result} />
+            <SaveButton disabled={!result} onClick={handleSave} />
           </div>
         </div>
       </div>

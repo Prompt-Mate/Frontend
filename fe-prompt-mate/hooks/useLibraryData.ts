@@ -60,8 +60,9 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
               .replace(/ /g, "."),
             title: item.savedTitle,
             content: item.content,
-            platform: item.platform,
-            kind: item.category,
+            platform: item.platform as LibraryItemData["platform"],
+            category: item.category as LibraryItemData["category"],
+            tag: "기타", // API에 tag가 없어서 임시 값 설정
             progress: 0, // API에 없으면 기본값
           }));
 
@@ -70,7 +71,7 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
           setTotalPages(data.totalPages || 0);
         } else {
           // 다른 탭(saved, liked)은 아직 MOCK 데이터 사용 예시
-          setItems([]); 
+          setItems([]);
           setTotalCount(0);
         }
       } catch (error: any) {

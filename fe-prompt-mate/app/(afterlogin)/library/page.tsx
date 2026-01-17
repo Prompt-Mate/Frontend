@@ -8,14 +8,9 @@ import { LibraryHeader, LibraryTabKey } from "@/components/library/LibraryHeader
 import { LibraryMeta } from "@/components/library/LibraryMeta";
 import { LibraryContent } from "@/components/library/LibraryContent";
 
-const MOCK: LibraryItemData[] = [
-  { id: "1", date: "25.11.13", title: "심리학 코알 보고서 초고",content: "인간의 공격 행동을 사회 심리학적 관점에서 설명하고, 이를 억제하기 위한" ,platform: "Chat GPT", kind: "보고서", progress: 70 },
-  { id: "2", date: "25.11.10", title: "시장 리포트 요약 자동화",content: "인간의 공격 행동을 사회 심리학적 관점에서 설명하고, 이를 억제하기 위한" ,platform: "Claude", kind: "요약", progress: 55 },
-  { id: "3", date: "25.11.13", title: "미드저니 검은 고양이 이미지",content: "인간의 공격 행동을 사회 심리학적 관점에서 설명하고, 이를 억제하기 위한" ,platform: "Midjourney", kind: "이미지", progress: 88 },
-  { id: "4", date: "25.11.13", title: "PPT 개요 작성",content: "인간의 공격 행동을 사회 심리학적 관점에서 설명하고, 이를 억제하기 위한" ,platform: "Chat GPT", kind: "문서작성", progress: 40 },
-];
 import { useLibraryData } from "@/hooks/useLibraryData";
 
+import type { LibraryItemData } from "@/components/library/LibraryItem";
 
 // 탭별 레이아웃
 const TAB_LAYOUT: Record<LibraryTabKey, "list" | "grid"> = {

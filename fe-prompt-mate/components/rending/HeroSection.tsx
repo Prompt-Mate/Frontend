@@ -32,7 +32,7 @@ export default function HeroSection() {
 
         <p className="mt-[23px] text-[20px] leading-[120%] text-[#6C6F79]">
           Refine your prompts, Amplify your creativity.
-          PromptMate, your AI co-creator.
+          PromMate, your AI co-creator.
         </p>
 
         <Link
