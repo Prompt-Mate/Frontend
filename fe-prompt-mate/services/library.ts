@@ -1,5 +1,54 @@
 // services/library.ts
-import { apiRequest } from "@/lib/api";
+import { apiRequest, apiGet } from "@/lib/api";
+
+// 내 라이브러리 아이템 타입 정의
+export interface MyLibraryItem {
+  id: number;
+  userId: number;
+  rewriteResultId: number;
+  savedTitle: string;
+  content: string;
+  platform: string; // "CHAT_GPT" | "GEMINI" | ...
+  category: string; // "WORK_PRODUCTIVITY" | "STUDY" | ...
+  imageUrl: string | null;
+  createdAt: string;
+}
+
+// 내 라이브러리 목록 조회 응답 타입
+export interface MyLibrariesResponse {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: MyLibraryItem[];
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    pageSize: number;
+    paged: boolean;
+    pageNumber: number;
+    unpaged: boolean;
+  };
+  empty: boolean;
+}
+
+// 내 라이브러리 목록 조회 파라미터
+export interface GetMyLibrariesParams {
+  page?: number;
+  size?: number;
+}
 
 // API 응답 타입 정의 (응답이 필요하면 추가)
 export interface SaveLibraryResponse {
@@ -14,6 +63,36 @@ export interface SaveLibraryRequest {
   platform: string; // "CHAT_GPT" | "GEMINI" | ...
   category: string; // "WORK_PRODUCTIVITY" | ...
   image?: File | null; // 이미지 파일 (선택적)
+}
+
+/**
+ * 내 라이브러리 목록 조회 API 호출
+ * @param params - 페이지네이션 파라미터 (page, size)
+ * @returns 내 라이브러리 목록 및 페이지네이션 정보
+ */
+export async function getMyLibraries(
+  params: GetMyLibrariesParams = {}
+): Promise<MyLibrariesResponse> {
+  try {
+    const queryParams = new URLSearchParams();
+    
+    if (params.page !== undefined) {
+      queryParams.append("page", String(params.page));
+    }
+    if (params.size !== undefined) {
+      queryParams.append("size", String(params.size));
+    }
+
+    const queryString = queryParams.toString();
+    const endpoint = `/api/libraries/my${queryString ? `?${queryString}` : ""}`;
+
+    const response = await apiGet<MyLibrariesResponse>(endpoint);
+
+    return response;
+  } catch (error) {
+    console.error("내 라이브러리 목록 조회 API 호출 실패:", error);
+    throw error;
+  }
 }
 
 /**

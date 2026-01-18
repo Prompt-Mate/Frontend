@@ -1,5 +1,5 @@
 // services/community.ts
-import { apiGet } from "@/lib/api";
+import { apiGet, apiPost } from "@/lib/api";
 
 // API 요청 파라미터 타입 정의
 export interface GetCommunityPostsParams {
@@ -85,6 +85,37 @@ export async function getCommunityPosts(
     return response;
   } catch (error) {
     console.error("커뮤니티 게시글 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+// 커뮤니티 게시글 생성 요청 타입
+export interface CreateCommunityPostRequest {
+  rewriteResultId: number;
+  title: string;
+  description: string;
+  visibility: "PUBLIC" | "PRIVATE";
+}
+
+// 커뮤니티 게시글 생성 응답 타입 (CommunityPost와 동일)
+export interface CreateCommunityPostResponse extends CommunityPost {}
+
+/**
+ * 커뮤니티 게시글 생성 API 호출
+ * @param data - 게시글 생성 데이터
+ * @returns 생성된 게시글 정보
+ */
+export async function createCommunityPost(
+  data: CreateCommunityPostRequest
+): Promise<CreateCommunityPostResponse> {
+  try {
+    const response = await apiPost<CreateCommunityPostResponse>(
+      "/api/community/posts",
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error("커뮤니티 게시글 생성 API 호출 실패:", error);
     throw error;
   }
 }
