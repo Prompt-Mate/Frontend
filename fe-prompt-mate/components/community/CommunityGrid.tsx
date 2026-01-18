@@ -7,8 +7,11 @@ interface Props {
 }
 
 export function CommunityGrid({ posts, loading }: Props) {
+  // posts가 undefined이거나 배열이 아니면 빈 배열로 처리
+  const safePosts = Array.isArray(posts) ? posts : [];
+
   // API 응답 데이터를 CommunityCardData 형식으로 변환
-  const cardData: CommunityCardData[] = posts.map((post) => ({
+  const cardData: CommunityCardData[] = safePosts.map((post) => ({
     id: String(post.id),
     platform: post.platform,
     title: post.title,

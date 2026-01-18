@@ -46,8 +46,8 @@ export default function CommunityPage() {
           search: search || undefined, // 빈 문자열이면 undefined (쿼리 파라미터에서 제외)
         });
 
-        setPosts(response.content);
-        setTotalCount(response.totalElements);
+        setPosts(response.content || []);
+        setTotalCount(response.totalElements || 0);
       } catch (error) {
         console.error("커뮤니티 게시글 조회 실패:", error);
         // 에러 발생 시 빈 배열로 설정
