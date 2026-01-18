@@ -30,7 +30,13 @@ export async function apiRequest<T>(
       : `Bearer ${accessToken}`;
   }
 
-  const response = await fetch(`${config.apiBaseUrl}${endpoint}`, {
+  // endpoint가 이미 /api로 시작하면 apiBaseUrl을 사용하지 않음 (rewrites 사용)
+  // endpoint가 상대 경로(/api로 시작)이면 그대로 사용, 절대 URL이면 apiBaseUrl과 결합
+  const url = endpoint.startsWith("/api") 
+    ? endpoint 
+    : `${config.apiBaseUrl}${endpoint}`;
+
+  const response = await fetch(url, {
     ...options,
     headers,
     // CORS 관련 설정
