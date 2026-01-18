@@ -243,3 +243,26 @@ export async function togglePostLike(
   }
 }
 
+// 최근 본 프롬프트 응답 타입
+export interface RecentCommunityPost {
+  postId: number;
+  title: string;
+  platform: string; // "CHAT_GPT", "GEMINI", ...
+  category: string; // "WORK_PRODUCTIVITY", "STUDY", ...
+  lastViewedAt: string;
+}
+
+/**
+ * 최근 본 커뮤니티 프롬프트 목록 조회 API 호출
+ * @returns 최근 본 프롬프트 목록
+ */
+export async function getRecentCommunityPosts(): Promise<RecentCommunityPost[]> {
+  try {
+    const response = await apiGet<RecentCommunityPost[]>("/api/community/recent");
+    return response;
+  } catch (error) {
+    console.error("최근 본 프롬프트 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
