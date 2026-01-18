@@ -44,3 +44,40 @@ export const CATEGORIES = [
     bgClass: "bg-[#FFF4EA]",
   },
 ];
+
+// 백엔드 API enum 형식으로 변환 함수
+
+/**
+ * 화면 표시용 플랫폼 이름을 백엔드 enum 형식으로 변환
+ * @param displayName - 화면에 표시되는 이름 (예: "Chat GPT", "Gemini")
+ * @returns 백엔드 enum 형식 (예: "CHAT_GPT", "GEMINI")
+ */
+export function convertPlatformToEnum(displayName: string): string {
+  const platformMap: Record<string, string> = {
+    "Chat GPT": "CHAT_GPT",
+    "Gemini": "GEMINI",
+    "Claude": "CLAUDE",
+    "Copilot": "COPILOT",
+    "Perplexity": "PERPLEXITY",
+    "Midjourney": "MIDJOURNEY",
+    "DALL-E": "DALL_E",
+  };
+  
+  return platformMap[displayName] || displayName;
+}
+
+/**
+ * 화면 표시용 카테고리 레이블을 백엔드 enum 형식으로 변환
+ * @param label - 화면에 표시되는 한글 레이블 (예: "업무/생산성", "학습")
+ * @returns 백엔드 enum 형식 (예: "WORK_PRODUCTIVITY", "STUDY")
+ */
+export function convertCategoryToEnum(label: string): string {
+  const categoryMap: Record<string, string> = {
+    "업무/생산성": "WORK_PRODUCTIVITY",
+    "학습": "STUDY",
+    "콘텐츠": "CONTENT",
+    "일상": "DAILY",
+  };
+  
+  return categoryMap[label] || label;
+}

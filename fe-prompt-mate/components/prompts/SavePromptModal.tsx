@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import PlatformSelect from "./PlatformSelect";
 import CategorySelect from "./CategorySelect";
 import { saveToLibrary } from "@/services/library";
+import { convertPlatformToEnum, convertCategoryToEnum } from "./constants";
 
 export default function SavePromptModal({
   rewriteResultId,
@@ -39,11 +40,16 @@ export default function SavePromptModal({
 
     try {
       setLoading(true);
+      
+      // 화면 표시용 값을 백엔드 enum 형식으로 변환
+      const platformEnum = convertPlatformToEnum(platform);
+      const categoryEnum = convertCategoryToEnum(category);
+      
       await saveToLibrary({
         rewriteResultId,
         savedTitle: title,
-        platform: platform, // "CHAT_GPT", "GEMINI" 등
-        category: category, // "WORK_PRODUCTIVITY" 등
+        platform: platformEnum, // "CHAT_GPT", "GEMINI" 등
+        category: categoryEnum, // "WORK_PRODUCTIVITY" 등
       });
       onClose(); // 저장 후 닫기
     } catch (error) {
