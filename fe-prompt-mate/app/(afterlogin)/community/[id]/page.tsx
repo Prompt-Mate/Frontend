@@ -13,6 +13,7 @@ import CommentComposer from "@/components/community/detail/CommentComposer";
 import CommentList from "@/components/community/detail/CommentList";
 import { getCommunityPostDetail, type CommunityPost } from "@/services/community";
 import { convertPlatformFromEnum } from "@/components/prompts/constants";
+import { getUserInfo } from "@/lib/auth";
 
 /**
  * 날짜를 "YY.MM.DD" 형식으로 변환
@@ -32,6 +33,8 @@ export default function CommunityDetailPage() {
     const [post, setPost] = useState<CommunityPost | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    // 댓글 목록 새로고침을 위한 trigger (Hooks는 조건부 return 전에 선언)
+    const [commentRefreshTrigger, setCommentRefreshTrigger] = useState(0);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -84,6 +87,14 @@ export default function CommunityDetailPage() {
     const platformLabel = convertPlatformFromEnum(post.platform);
     const dateText = formatDate(post.createdAt);
 
+    // 현재 로그인한 사용자 정보 가져오기
+    const currentUser = getUserInfo();
+    const currentUsername = currentUser?.nickname || "사용자";
+
+    const handleCommentAdded = () => {
+        setCommentRefreshTrigger(prev => prev + 1); // trigger 변경으로 CommentList 새로고침
+    };
+
     return (
         <Container>
             <section className="mt-4">
@@ -112,10 +123,18 @@ export default function CommunityDetailPage() {
                     />
                 </div>
                 <div className="mt-[40px]">
-                    <CommentComposer/>
+                    <CommentComposer 
+                        postId={postId}
+                        username={currentUsername}
+                        onCommentAdded={handleCommentAdded}
+                    />
                 </div>
                 <div className="mt-[70px] mb-[30px]">
-                    <CommentList />
+                    <CommentList 
+                        key={commentRefreshTrigger}
+                        postId={postId}
+                        username={currentUsername}
+                    />
                 </div>
             </section>
         </Container>

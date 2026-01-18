@@ -142,3 +142,79 @@ export async function getCommunityPostDetail(
   }
 }
 
+// 댓글 생성 요청 타입
+export interface CreateCommentRequest {
+  parentId: number | null; // 대댓글인 경우 부모 댓글 ID, 일반 댓글인 경우 null
+  content: string;
+}
+
+// 댓글 생성 응답 타입 (필요시 정의)
+export interface CreateCommentResponse {
+  id: number;
+  // 필요한 응답 필드 추가
+}
+
+/**
+ * 커뮤니티 게시글에 댓글 생성 API 호출
+ * @param postId - 게시글 ID
+ * @param data - 댓글 생성 데이터
+ * @returns 생성된 댓글 정보
+ */
+export async function createComment(
+  postId: number | string,
+  data: CreateCommentRequest
+): Promise<CreateCommentResponse> {
+  try {
+    // parentId가 null이면 요청 본문에서 제외
+    const requestBody: { content: string; parentId?: number } = {
+      content: data.content,
+    };
+
+    // parentId가 있는 경우에만 추가
+    if (data.parentId !== null && data.parentId !== undefined) {
+      requestBody.parentId = Number(data.parentId);
+    }
+
+    const response = await apiPost<CreateCommentResponse>(
+      `/api/community/posts/${postId}/comments`,
+      requestBody
+    );
+    return response;
+  } catch (error) {
+    console.error("댓글 생성 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+// 댓글 응답 타입 정의
+export interface Comment {
+  commentId: number;
+  postId: number;
+  userId: number;
+  nickname: string;
+  parentId: number;
+  content: string;
+  status: string;
+  createdAt: string;
+  replies: string[]; // 대댓글 ID 배열 또는 다른 정보
+}
+
+/**
+ * 커뮤니티 게시글의 댓글 목록 조회 API 호출
+ * @param postId - 게시글 ID
+ * @returns 댓글 목록
+ */
+export async function getComments(
+  postId: number | string
+): Promise<Comment[]> {
+  try {
+    const response = await apiGet<Comment[]>(
+      `/api/community/posts/${postId}/comments`
+    );
+    return response;
+  } catch (error) {
+    console.error("댓글 목록 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
