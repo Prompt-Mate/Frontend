@@ -134,6 +134,7 @@ export default function CommunityDetailPage() {
                         key={commentRefreshTrigger}
                         postId={postId}
                         username={currentUsername}
+                        onCommentAdded={handleCommentAdded}
                     />
                 </div>
             </section>

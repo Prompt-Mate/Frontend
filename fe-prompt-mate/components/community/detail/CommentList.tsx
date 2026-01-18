@@ -43,19 +43,31 @@ export default function CommentList({ postId, username, onCommentAdded }: Commen
             setLoading(true);
             const data = await getComments(postId);
             
-            // 댓글 맵 생성 (parentId로 부모 댓글 찾기용)
-            const commentMap = new Map<number, Comment>();
-            data.forEach(comment => {
+            // 댓글과 대댓글을 평탄화 (flatten)
+            const allComments: Comment[] = [];
+            const commentMap = new Map<number, Comment>(); // 부모 댓글 찾기용
+
+            // 댓글과 대댓글을 모두 수집
+            data.forEach((comment) => {
                 commentMap.set(comment.commentId, comment);
+                allComments.push(comment); // 부모 댓글 추가
+                
+                // replies 배열의 대댓글도 추가
+                if (comment.replies && Array.isArray(comment.replies)) {
+                    comment.replies.forEach((reply) => {
+                        commentMap.set(reply.commentId, reply);
+                        allComments.push(reply); // 대댓글 추가
+                    });
+                }
             });
 
             // API 응답을 UiComment 형식으로 변환
-            const uiComments: UiComment[] = data.map((comment) => {
-                const isReply = comment.parentId > 0;
+            const uiComments: UiComment[] = allComments.map((comment) => {
+                const isReply = comment.parentId !== null && comment.parentId > 0;
                 let mentionNickname: string | undefined;
 
                 // 대댓글이면 부모 댓글의 닉네임 가져오기
-                if (isReply) {
+                if (isReply && comment.parentId) {
                     const parentComment = commentMap.get(comment.parentId);
                     mentionNickname = parentComment?.nickname;
                 }
@@ -67,8 +79,31 @@ export default function CommentList({ postId, username, onCommentAdded }: Commen
                     content: comment.content,
                     isReply,
                     mentionNickname,
-                    parentId: comment.parentId, // parentId 저장
+                    parentId: comment.parentId || undefined, // parentId 저장 (null이면 undefined)
                 };
+            });
+
+            // 정렬: 부모 댓글 먼저, 그 다음 대댓글 (부모 댓글 ID로 그룹화)
+            uiComments.sort((a, b) => {
+                const aParentId = a.parentId || 0;
+                const bParentId = b.parentId || 0;
+                const aId = Number(a.id);
+                const bId = Number(b.id);
+
+                // 부모 댓글끼리 비교 (parentId가 없거나 0인 경우)
+                if (aParentId === 0 && bParentId === 0) {
+                    return bId - aId; // 최신순
+                }
+                if (aParentId === 0) return -1; // 부모 댓글이 먼저
+                if (bParentId === 0) return 1;
+
+                // 같은 부모 댓글의 대댓글끼리 비교
+                if (aParentId === bParentId) {
+                    return bId - aId; // 최신순
+                }
+
+                // 다른 부모의 대댓글은 부모 댓글 ID로 정렬
+                return aParentId - bParentId;
             });
 
             setComments(uiComments);

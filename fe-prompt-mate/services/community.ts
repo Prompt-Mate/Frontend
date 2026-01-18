@@ -192,11 +192,11 @@ export interface Comment {
   postId: number;
   userId: number;
   nickname: string;
-  parentId: number;
+  parentId: number | null;
   content: string;
   status: string;
   createdAt: string;
-  replies: string[]; // 대댓글 ID 배열 또는 다른 정보
+  replies: Comment[]; // 대댓글 배열 (중첩 구조)
 }
 
 /**
