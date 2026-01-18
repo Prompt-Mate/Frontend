@@ -123,3 +123,22 @@ export async function createCommunityPost(
   }
 }
 
+/**
+ * 커뮤니티 게시글 상세 조회 API 호출
+ * @param postId - 게시글 ID
+ * @returns 게시글 상세 정보
+ */
+export async function getCommunityPostDetail(
+  postId: number | string
+): Promise<CommunityPost> {
+  try {
+    const response = await apiGet<CommunityPost>(
+      `/api/community/posts/${postId}`
+    );
+    return response;
+  } catch (error) {
+    console.error("커뮤니티 게시글 상세 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
