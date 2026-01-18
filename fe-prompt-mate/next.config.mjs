@@ -68,11 +68,15 @@ const nextConfig = {
   },
 
   async rewrites() {
+    // 배포 환경에서는 환경 변수로 백엔드 서버 URL 설정
+    // 개발 환경에서는 localhost:8080 사용
+    const backendUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080";
+    
     return [
       {
         // 프론트엔드의 /api/.. 요청을 백엔드 서버의 /api/.. 로 전달
         source: "/api/:path*",
-        destination: "http://localhost:8080/api/:path*",
+        destination: `${backendUrl}/api/:path*`,
       },
     ];
   },
