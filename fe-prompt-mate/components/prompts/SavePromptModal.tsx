@@ -4,11 +4,13 @@
 import { useEffect, useState } from "react";
 import PlatformSelect from "./PlatformSelect";
 import CategorySelect from "./CategorySelect";
-import { createPrompt } from "@/lib/prompt";
+import { saveToLibrary } from "@/services/library";
 
 export default function SavePromptModal({
+  rewriteResultId,
   onClose,
 }: {
+  rewriteResultId: number;
   onClose: () => void;
 }) {
   const [title, setTitle] = useState("");
@@ -35,17 +37,17 @@ export default function SavePromptModal({
     if (!platform) return setError("플랫폼을 선택해주세요.");
     if (!category) return setError("카테고리를 선택해주세요.");
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("platform", platform);
-    formData.append("category", category);
-    if (image) formData.append("image", image);
-
     try {
       setLoading(true);
-      await createPrompt(formData);
+      await saveToLibrary({
+        rewriteResultId,
+        savedTitle: title,
+        platform: platform, // "CHAT_GPT", "GEMINI" 등
+        category: category, // "WORK_PRODUCTIVITY" 등
+      });
       onClose(); // 저장 후 닫기
-    } catch {
+    } catch (error) {
+      console.error("라이브러리 저장 실패:", error);
       setError("저장 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);

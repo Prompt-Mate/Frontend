@@ -2,7 +2,7 @@
 import { apiPost } from "@/lib/api";
 
 // API 응답 타입 정의
-interface RewriteResponse {
+export interface RewriteResponse {
   rewriteResultId: number;
   rewrittenPrompt: string;
   latencyMs: number;
@@ -18,9 +18,9 @@ interface RewriteRequest {
 /**
  * 프롬프트 재작성 API 호출
  * @param input - 재작성할 프롬프트 문자열
- * @returns 재작성된 프롬프트 문자열
+ * @returns 재작성 API 응답 전체
  */
-export async function rewritePrompt(input: string): Promise<string> {
+export async function rewritePrompt(input: string): Promise<RewriteResponse> {
   try {
     const requestData: RewriteRequest = {
       prompt: input,
@@ -31,11 +31,9 @@ export async function rewritePrompt(input: string): Promise<string> {
       requestData
     );
 
-    // 응답에서 재작성된 프롬프트 반환
-    return response.rewrittenPrompt;
+    return response;
   } catch (error) {
     console.error("프롬프트 재작성 API 호출 실패:", error);
-    // 에러 발생 시 원본 프롬프트 반환 또는 에러 재발생
     throw error;
   }
 }

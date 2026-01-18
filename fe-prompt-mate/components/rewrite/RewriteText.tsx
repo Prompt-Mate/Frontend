@@ -11,12 +11,13 @@ import { judgePrompt, type JudgeResponse } from "@/services/judge";
 
 interface RewriteTextProps {
   onComplete?: () => void;      // ✅ 리라이팅 완료 알림 (기존 그대로)
-  onSaveClick?: () => void;     // ✅ 저장하기 버튼 클릭 (추가)
+  onSaveClick?: (rewriteResultId: number) => void;     // ✅ 저장하기 버튼 클릭 (rewriteResultId 전달)
   onJudgeComplete?: (judgeResult: JudgeResponse) => void; // ✅ 평가 완료 알림
 }
 
 export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }: RewriteTextProps) {
   const [result, setResult] = useState("");
+  const [rewriteResultId, setRewriteResultId] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   const handleRewrite = async (text: string) => {
@@ -24,15 +25,17 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
 
     setLoading(true);
     setResult("");
+    setRewriteResultId(null);
 
     try {
       // rewrite와 judge API를 병렬로 호출
-      const [rewritten, judgeResult] = await Promise.all([
+      const [rewriteResponse, judgeResult] = await Promise.all([
         rewritePrompt(text),
         judgePrompt(text),
       ]);
 
-      setResult(rewritten);
+      setResult(rewriteResponse.rewrittenPrompt);
+      setRewriteResultId(rewriteResponse.rewriteResultId);
       
       // 평가 결과를 상위 컴포넌트로 전달
       onJudgeComplete?.(judgeResult);
@@ -43,8 +46,9 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
       console.error("프롬프트 처리 실패:", error);
       // rewrite만 성공한 경우에도 결과 표시
       try {
-        const rewritten = await rewritePrompt(text);
-        setResult(rewritten);
+        const rewriteResponse = await rewritePrompt(text);
+        setResult(rewriteResponse.rewrittenPrompt);
+        setRewriteResultId(rewriteResponse.rewriteResultId);
       } catch (rewriteError) {
         console.error("프롬프트 재작성 실패:", rewriteError);
       }
@@ -55,10 +59,10 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
 
   const handleSave = () => {
     // ✅ 결과 없으면 저장 버튼 동작 X (안전)
-    if (!result) return;
+    if (!result || !rewriteResultId) return;
 
-    console.log("SAVE CLICK IN RewriteText");
-    onSaveClick?.(); // ✅ page에서 모달 open 시키는 함수가 여기로 들어옴
+    console.log("SAVE CLICK IN RewriteText", rewriteResultId);
+    onSaveClick?.(rewriteResultId); // ✅ rewriteResultId 전달
   };
 
   return (

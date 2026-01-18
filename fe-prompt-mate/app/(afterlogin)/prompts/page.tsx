@@ -12,12 +12,16 @@ import { type JudgeResponse } from "@/services/judge";
 export default function PromptsPage() {
   const [isSaveOpen, setIsSaveOpen] = useState(false);
   const [judgeResult, setJudgeResult] = useState<JudgeResponse | null>(null);
+  const [rewriteResultId, setRewriteResultId] = useState<number | null>(null);
 
   return (
     <Container>
       <section className="space-y-6 md:space-y-8">
         <RewriteText 
-          onSaveClick={() => setIsSaveOpen(true)}
+          onSaveClick={(id) => {
+            setRewriteResultId(id);
+            setIsSaveOpen(true);
+          }}
           onJudgeComplete={(result) => setJudgeResult(result)}
         />
         {judgeResult && (
@@ -28,7 +32,15 @@ export default function PromptsPage() {
         )}
       </section>
 
-      {isSaveOpen && <SavePromptModal onClose={() => setIsSaveOpen(false)} />}
+      {isSaveOpen && rewriteResultId !== null && (
+        <SavePromptModal 
+          rewriteResultId={rewriteResultId}
+          onClose={() => {
+            setIsSaveOpen(false);
+            setRewriteResultId(null);
+          }} 
+        />
+      )}
     </Container>
   );
 }

@@ -5,11 +5,10 @@ import SaveButton from "@/components/rewrite/SaveButton";
 import { type JudgeResponse } from "@/services/judge";
 
 interface Props {
-  onSaveClick?: () => void;
   judgeResult?: JudgeResponse | null;
 }
 
-export function PromptEvaluationCard({ onSaveClick, judgeResult }: Props) {
+export function PromptEvaluationCard({ judgeResult }: Props) {
   // 평가 결과가 없으면 기본값 또는 빈 상태 표시
   if (!judgeResult) {
     return (
@@ -60,7 +59,7 @@ export function PromptEvaluationCard({ onSaveClick, judgeResult }: Props) {
   ];
 
   return (
-    <section className="w-[927px] h-[1122px] rounded-[30px] bg-ui-card relative">
+    <section className="w-[927px] h-[1024px] rounded-[30px] bg-ui-card relative">
       <EvaluationHeader summaryFeedback={judgeResult.summary_feedback} />
       <EvaluationOverview
         totalScore={judgeResult.overall_score}
@@ -79,11 +78,6 @@ export function PromptEvaluationCard({ onSaveClick, judgeResult }: Props) {
           )}
         </div>
       ))}
-
-      {/* 저장하기 버튼 */}
-      <div className="absolute bottom-8 right-8">
-        <SaveButton disabled={false} onClick={onSaveClick} />
-      </div>
     </section>
   );
 }
