@@ -10,13 +10,13 @@ export function EvaluationDetails({
                                       score,
                                   }: EvaluationDetailsProps) {
     return (
-        <div className="flex items-center text-body font-semibold p-6">
-            <div className="flex items-center gap-[55px]">
-                <span>{title}</span>
-                <span>{description}</span>
-            </div>
-
-            <span className="ml-auto">{score}점</span>
+        <div className="flex items-center text-body font-semibold p-6 gap-[55px]">
+            {/* title: 고정 너비 */}
+            <span className="flex-shrink-0">{title}</span>
+            {/* description: 가변 너비, 텍스트 오버플로우 처리 */}
+            <span className="flex-1 min-w-0 break-words">{description}</span>
+            {/* score: 고정 너비 */}
+            <span className="flex-shrink-0">{score}점</span>
         </div>
     );
 }

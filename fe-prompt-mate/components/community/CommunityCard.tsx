@@ -1,5 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import CommunityDefault from"@/assets/icons/comunityDefault.svg"
 import HeartIcon from "@/assets/icons/heart.svg"
+import Image from "next/image";
 
 export type CommunityCardData = {
     id: string;
@@ -9,21 +13,30 @@ export type CommunityCardData = {
     likes: number;
     comments: number;
     thumbnailVariant: "image" | "placeholder";
+    imageUrl?: string | null; // imageUrl 추가
 };
 
 export function CommunityCard({ data }: { data: CommunityCardData }) {
+    const router = useRouter();
+
+    const handleCardClick = () => {
+        router.push(`/community/${data.id}`);
+    };
+
     return (
         <article
+            onClick={handleCardClick}
             className="
         relative overflow-hidden
         w-full max-w-[301px] h-[254px] rounded-[22px]
         bg-ui-card shadow-sm
         ring-1 ring-black/5
+        cursor-pointer
       "
         >
             <div className="p-4">
                 <div className="relative">
-                    <CommunityThumbnail variant={data.thumbnailVariant} />
+                    <CommunityThumbnail variant={data.thumbnailVariant} imageUrl={data.imageUrl} />
 
                     {/* ✅ 썸네일 위로 올리는 영역 */}
                     <div
@@ -37,6 +50,9 @@ export function CommunityCard({ data }: { data: CommunityCardData }) {
                         <button
                             type="button"
                             aria-label="좋아요"
+                            onClick={(e) => {
+                                e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+                            }}
                             className="
                 ml-auto grid h-8 w-8 place-items-center rounded-full
                 bg-white/80 backdrop-blur
@@ -82,14 +98,20 @@ function CommunityBadge({ text }: { text: string }) {
     );
 }
 
-function CommunityThumbnail({ variant }: { variant: "image" | "placeholder" }) {
+function CommunityThumbnail({ variant, imageUrl }: { variant: "image" | "placeholder", imageUrl?: string | null }) {
     return (
         <div className="relative h-[120px] w-full overflow-hidden rounded-[18px] bg-ui-surfaceSubtle">
-            {variant === "image" ? (
-                <CommunityDefault/>
+            {variant === "image" && imageUrl ? (
+                <Image
+                    src={imageUrl}
+                    alt="Community Post Thumbnail"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                />
             ) : (
-                <div className="h-full w-full p-6">
-                    <div className="h-full w-full rounded-[16px] bg-gradient-to-br from-primary/10 to-primary/0" />
+                <div className="flex h-full w-full items-center justify-center">
+                    <CommunityDefault className="h-full w-full" />
                 </div>
             )}
         </div>

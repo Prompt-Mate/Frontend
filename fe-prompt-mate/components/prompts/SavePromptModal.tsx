@@ -4,11 +4,14 @@
 import { useEffect, useState } from "react";
 import PlatformSelect from "./PlatformSelect";
 import CategorySelect from "./CategorySelect";
-import { createPrompt } from "@/lib/prompt";
+import { saveToLibrary } from "@/services/library";
+import { convertPlatformToEnum, convertCategoryToEnum } from "./constants";
 
 export default function SavePromptModal({
+  rewriteResultId,
   onClose,
 }: {
+  rewriteResultId: number;
   onClose: () => void;
 }) {
   const [title, setTitle] = useState("");
@@ -35,17 +38,23 @@ export default function SavePromptModal({
     if (!platform) return setError("플랫폼을 선택해주세요.");
     if (!category) return setError("카테고리를 선택해주세요.");
 
-    const formData = new FormData();
-    formData.append("title", title);
-    formData.append("platform", platform);
-    formData.append("category", category);
-    if (image) formData.append("image", image);
-
     try {
       setLoading(true);
-      await createPrompt(formData);
+      
+      // 화면 표시용 값을 백엔드 enum 형식으로 변환
+      const platformEnum = convertPlatformToEnum(platform);
+      const categoryEnum = convertCategoryToEnum(category);
+      
+      await saveToLibrary({
+        rewriteResultId,
+        savedTitle: title,
+        platform: platformEnum, // "CHAT_GPT", "GEMINI" 등
+        category: categoryEnum, // "WORK_PRODUCTIVITY" 등
+        image: image, // 이미지 파일 (선택적)
+      });
       onClose(); // 저장 후 닫기
-    } catch {
+    } catch (error) {
+      console.error("라이브러리 저장 실패:", error);
       setError("저장 중 오류가 발생했습니다.");
     } finally {
       setLoading(false);

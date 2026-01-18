@@ -14,8 +14,8 @@ import type { LibraryItemData } from "@/components/library/LibraryItem";
 
 // 탭별 레이아웃
 const TAB_LAYOUT: Record<LibraryTabKey, "list" | "grid"> = {
-  saved: "grid",
-  mine: "list",
+  mine : "grid",
+  saved: "list",
   liked: "list",
 };
 
@@ -26,7 +26,7 @@ export default function LibraryPage() {
   const layout = TAB_LAYOUT[tab];
 
   // 커스텀 훅 사용: 로직이 숨겨져서 코드가 훨씬 깔끔해집니다.
-  const { items, totalCount, totalPages } = useLibraryData(tab, search);
+  const { items, loading, totalCount, totalPages } = useLibraryData(tab, search);
 
   return (
     <Container>
@@ -40,7 +40,13 @@ export default function LibraryPage() {
 
         <div className="space-y-4">
           <LibraryMeta totalCount={totalCount} page={1} totalPages={totalPages} />
-          <LibraryContent items={items} layout={layout} />
+          {loading ? (
+            <div className="flex items-center justify-center py-20">
+              <p className="text-ui-textMuted">로딩 중...</p>
+            </div>
+          ) : (
+            <LibraryContent items={items} layout={layout} />
+          )}
         </div>
       </section>
     </Container>
