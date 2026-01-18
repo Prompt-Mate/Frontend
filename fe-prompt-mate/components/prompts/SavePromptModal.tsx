@@ -50,6 +50,7 @@ export default function SavePromptModal({
         savedTitle: title,
         platform: platformEnum, // "CHAT_GPT", "GEMINI" 등
         category: categoryEnum, // "WORK_PRODUCTIVITY" 등
+        image: image, // 이미지 파일 (선택적)
       });
       onClose(); // 저장 후 닫기
     } catch (error) {

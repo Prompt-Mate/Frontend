@@ -15,7 +15,8 @@ export async function apiRequest<T>(
   };
 
   // body가 있으면 Content-Type 추가
-  if (options.body) {
+  // FormData인 경우는 Content-Type을 설정하지 않음 (브라우저가 자동으로 multipart/form-data와 boundary 설정)
+  if (options.body && !(options.body instanceof FormData)) {
     headers["Content-Type"] = "application/json";
   }
 
