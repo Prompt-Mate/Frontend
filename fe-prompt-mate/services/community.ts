@@ -266,3 +266,17 @@ export async function getRecentCommunityPosts(): Promise<RecentCommunityPost[]> 
   }
 }
 
+/**
+ * 인기 커뮤니티 프롬프트 목록 조회 API 호출
+ * @returns 인기 프롬프트 목록
+ */
+export async function getPopularCommunityPosts(): Promise<CommunityPost[]> {
+  try {
+    const response = await apiGet<CommunityPost[]>("/api/community/popular");
+    return response;
+  } catch (error) {
+    console.error("인기 프롬프트 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
