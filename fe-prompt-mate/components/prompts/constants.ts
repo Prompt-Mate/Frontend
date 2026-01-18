@@ -81,3 +81,54 @@ export function convertCategoryToEnum(label: string): string {
   
   return categoryMap[label] || label;
 }
+
+/**
+ * 백엔드 enum 형식을 화면 표시용 플랫폼 이름으로 변환
+ * @param enumValue - 백엔드 enum 형식 (예: "CHAT_GPT", "GEMINI")
+ * @returns 화면에 표시되는 이름 (예: "Chat GPT", "Gemini")
+ */
+export function convertPlatformFromEnum(enumValue: string): string {
+  const platformMap: Record<string, string> = {
+    "CHAT_GPT": "Chat GPT",
+    "GEMINI": "Gemini",
+    "CLAUDE": "Claude",
+    "COPILOT": "Copilot",
+    "PERPLEXITY": "Perplexity",
+    "MIDJOURNEY": "Midjourney",
+    "DALL_E": "DALL·E",
+  };
+  
+  return platformMap[enumValue] || enumValue;
+}
+
+/**
+ * 백엔드 enum 형식을 화면 표시용 카테고리 레이블로 변환
+ * @param enumValue - 백엔드 enum 형식 (예: "WORK_PRODUCTIVITY", "STUDY")
+ * @returns 화면에 표시되는 한글 레이블 (예: "업무/생산성", "학습")
+ */
+export function convertCategoryFromEnum(enumValue: string): string {
+  const categoryMap: Record<string, string> = {
+    "WORK_PRODUCTIVITY": "업무/생산성",
+    "STUDY": "학습",
+    "CONTENT": "콘텐츠",
+    "DAILY": "일상",
+  };
+  
+  return categoryMap[enumValue] || enumValue;
+}
+
+/**
+ * 카테고리 enum 값에 해당하는 TagChip variant 반환
+ * @param enumValue - 백엔드 enum 형식 (예: "WORK_PRODUCTIVITY", "STUDY")
+ * @returns TagChip variant (예: "productivity", "study")
+ */
+export function getCategoryVariant(enumValue: string): "platform" | "productivity" | "study" | "content" | "daily" {
+  const variantMap: Record<string, "platform" | "productivity" | "study" | "content" | "daily"> = {
+    "WORK_PRODUCTIVITY": "productivity",
+    "STUDY": "study",
+    "CONTENT": "content",
+    "DAILY": "daily",
+  };
+  
+  return variantMap[enumValue] || "platform";
+}

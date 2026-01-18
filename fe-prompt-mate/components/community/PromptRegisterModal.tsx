@@ -3,6 +3,8 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import TagChip from "@/components/common/TagChip";
+import { convertPlatformFromEnum, convertCategoryFromEnum, getCategoryVariant } from "@/components/prompts/constants";
 
 type Item = {
     id: string;
@@ -23,34 +25,6 @@ function cn(...xs: Array<string | false | undefined | null>) {
     return xs.filter(Boolean).join(" ");
 }
 
-function Pill({ children, tone = "purple" }: { children: React.ReactNode; tone?: "purple" | "green" | "blue" | "gray" }) {
-    const cls =
-        tone === "purple"
-            ? "bg-[rgba(99,102,241,0.12)] text-[#5B5DE6]"
-            : tone === "green"
-                ? "bg-[rgba(34,197,94,0.12)] text-[#16A34A]"
-                : tone === "blue"
-                    ? "bg-[rgba(59,130,246,0.12)] text-[#2563EB]"
-                    : "bg-black/5 text-black/70";
-
-    return (
-        <span className={cn("inline-flex items-center rounded-full px-3 py-1 text-[12px] font-semibold", cls)}>
-      {children}
-    </span>
-    );
-}
-
-function platformTone(p: Item["platform"]) {
-    if (p === "Claude") return "green";
-    if (p === "Midjourney") return "blue";
-    return "purple";
-}
-
-function badgeTone(b: Item["badge"]) {
-    if (b === "요약") return "green";
-    if (b === "이미지") return "blue";
-    return "purple";
-}
 
 export default function PromptRegisterModal({ asPage = false }: { asPage?: boolean }) {
     const router = useRouter();
@@ -156,8 +130,10 @@ export default function PromptRegisterModal({ asPage = false }: { asPage?: boole
                                         </div>
 
                                         <div className="flex shrink-0 items-center gap-2">
-                                            <Pill tone={platformTone(it.platform) as any}>{it.platform}</Pill>
-                                            <Pill tone={badgeTone(it.badge) as any}>{it.badge}</Pill>
+                                            <TagChip variant="platform" label={it.platform} />
+                                            {/* TODO: API 연동 시 category enum 값을 사용하여 variant와 label 설정 */}
+                                            {/* 현재는 badge를 임시로 사용, 나중에 category로 변경 예정 */}
+                                            <TagChip variant="productivity" label={it.badge} />
 
                                             <span className="ml-1 grid h-9 w-9 place-items-center rounded-full hover:bg-black/[0.04]">
                         ⋮
