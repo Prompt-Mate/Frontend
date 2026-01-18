@@ -87,11 +87,14 @@ export function LibraryItem({
     return (
         <article className="rounded-[18px] bg-white p-[16px] ring-1 ring-black/5">
             <div className="flex items-start">
-                <div className="min-w-0">
+                <div className="min-w-0 flex-1">
                     <p className="truncate text-[14px] font-semibold text-black/80">
                         {item.title}
                     </p>
                     <p className="mt-[4px] text-[12px] text-black/35">{item.date}</p>
+                    <p className="mt-[11px] line-clamp-2 text-[13px]" style={{ color: "var(--gray-grey-7, #B5B8BB)" }}>
+                        {item.content}
+                    </p>
                 </div>
                 <div className="ml-auto">
                     <KebabButton />

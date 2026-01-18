@@ -14,8 +14,8 @@ import type { LibraryItemData } from "@/components/library/LibraryItem";
 
 // 탭별 레이아웃
 const TAB_LAYOUT: Record<LibraryTabKey, "list" | "grid"> = {
-  saved: "grid",
-  mine: "list",
+  mine : "grid",
+  saved: "list",
   liked: "list",
 };
 
