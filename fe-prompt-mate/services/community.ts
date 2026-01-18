@@ -44,6 +44,8 @@ export interface CommunityPost {
   imageUrl: string | null;
 }
 
+// 커뮤니티 게시글 목록 조회 응답 타입 (배열 형식)
+// 참고: API 응답이 페이지네이션 구조가 아닌 배열로 직접 오는 경우
 export interface CommunityPostsResponse {
   content: CommunityPost[];
   totalElements: number;
@@ -54,16 +56,16 @@ export interface CommunityPostsResponse {
 /**
  * 커뮤니티 게시글 목록 조회 API 호출
  * @param params - 조회 파라미터 (search, sort, platform, category)
- * @returns 게시글 목록 응답
+ * @returns 게시글 목록 (배열)
  */
 export async function getCommunityPosts(
   params: GetCommunityPostsParams = {}
-): Promise<CommunityPostsResponse> {
+): Promise<CommunityPost[]> {
   try {
     // 쿼리 파라미터 생성
     const queryParams = new URLSearchParams();
     
-    // 자바스크립트의 if (...) 는괄호 안의 값을 Boolean으로 “자동 변환”해서 판단해. 이걸 Truthy / Falsy 라고 불러.
+    // 자바스크립트의 if (...) 는괄호 안의 값을 Boolean으로 "자동 변환"해서 판단해. 이걸 Truthy / Falsy 라고 불러.
     if (params.search) {
       queryParams.append("search", params.search);
     }
@@ -80,7 +82,8 @@ export async function getCommunityPosts(
     const queryString = queryParams.toString(); // URLSearchParams.toString()의 규칙 내부에 저장된 모든 key–value 쌍을 key=value 형태로 만들고 &로 자동 연결
     const endpoint = `/api/community/posts${queryString ? `?${queryString}` : ""}`;
 
-    const response = await apiGet<CommunityPostsResponse>(endpoint);
+    // API 응답이 배열로 직접 오는 경우
+    const response = await apiGet<CommunityPost[]>(endpoint);
 
     return response;
   } catch (error) {

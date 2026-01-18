@@ -1,5 +1,6 @@
 import CommunityDefault from"@/assets/icons/comunityDefault.svg"
 import HeartIcon from "@/assets/icons/heart.svg"
+import Image from "next/image";
 
 export type CommunityCardData = {
     id: string;
@@ -9,6 +10,7 @@ export type CommunityCardData = {
     likes: number;
     comments: number;
     thumbnailVariant: "image" | "placeholder";
+    imageUrl?: string | null; // imageUrl 추가
 };
 
 export function CommunityCard({ data }: { data: CommunityCardData }) {
@@ -23,7 +25,7 @@ export function CommunityCard({ data }: { data: CommunityCardData }) {
         >
             <div className="p-4">
                 <div className="relative">
-                    <CommunityThumbnail variant={data.thumbnailVariant} />
+                    <CommunityThumbnail variant={data.thumbnailVariant} imageUrl={data.imageUrl} />
 
                     {/* ✅ 썸네일 위로 올리는 영역 */}
                     <div
@@ -82,14 +84,20 @@ function CommunityBadge({ text }: { text: string }) {
     );
 }
 
-function CommunityThumbnail({ variant }: { variant: "image" | "placeholder" }) {
+function CommunityThumbnail({ variant, imageUrl }: { variant: "image" | "placeholder", imageUrl?: string | null }) {
     return (
         <div className="relative h-[120px] w-full overflow-hidden rounded-[18px] bg-ui-surfaceSubtle">
-            {variant === "image" ? (
-                <CommunityDefault/>
+            {variant === "image" && imageUrl ? (
+                <Image
+                    src={imageUrl}
+                    alt="Community Post Thumbnail"
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                />
             ) : (
-                <div className="h-full w-full p-6">
-                    <div className="h-full w-full rounded-[16px] bg-gradient-to-br from-primary/10 to-primary/0" />
+                <div className="flex h-full w-full items-center justify-center">
+                    <CommunityDefault className="h-full w-full" />
                 </div>
             )}
         </div>

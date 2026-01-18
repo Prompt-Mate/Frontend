@@ -20,6 +20,7 @@ export function CommunityGrid({ posts, loading }: Props) {
     comments: post.commentCount, // commentCount 필드 사용
     // imageUrl이 있으면 "image", 없으면 "placeholder"
     thumbnailVariant: post.imageUrl ? "image" : "placeholder",
+    imageUrl: post.imageUrl, // imageUrl 전달
   }));
 
   // 로딩 중일 때
