@@ -2,6 +2,7 @@
 "use client";
 
 import UserIcon from "@/assets/icons/Group 2147202980.svg"
+import HeartIcon from "@/assets/icons/heart.svg"
 
 
 type Props = {
@@ -116,17 +117,10 @@ export default function PostMetaBar({
                     <button
                         type="button"
                         onClick={onLikeClick}
-                        className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.06)] hover:bg-black/5 active:bg-black/10"
+                        className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white shadow-[0_0_0_1px_rgba(15,23,42,0.06)] hover:bg-black/5 active:bg-black/10"
                         aria-label="좋아요"
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M12 20s-7-4.6-9.2-9C1.3 7.5 3.5 5 6.5 5c1.7 0 3.2.9 4 2.1C11.3 5.9 12.8 5 14.5 5c3 0 5.2 2.5 3.7 6-2.2 4.4-9.2 9-9.2 9Z"
-                                stroke="currentColor"
-                                strokeWidth="1.8"
-                                strokeLinejoin="round"
-                            />
-                        </svg>
+                        <HeartIcon className={`h-[14px] w-[14px] ${isLiked ? 'text-red-500' : 'text-ui-icon'}`} />
                     </button>
                 </div>
             </div>

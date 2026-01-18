@@ -1,9 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import CommunityDefault from"@/assets/icons/comunityDefault.svg"
 import HeartIcon from "@/assets/icons/heart.svg"
 import Image from "next/image";
+import { togglePostLike } from "@/services/community";
 
 export type CommunityCardData = {
     id: string;
@@ -14,13 +16,30 @@ export type CommunityCardData = {
     comments: number;
     thumbnailVariant: "image" | "placeholder";
     imageUrl?: string | null; // imageUrl 추가
+    isLiked?: boolean; // 좋아요 상태 (선택적)
 };
 
 export function CommunityCard({ data }: { data: CommunityCardData }) {
     const router = useRouter();
+    // 좋아요 상태 관리 (로컬 상태)
+    const [isLiked, setIsLiked] = useState(data.isLiked || false);
+    const [likes, setLikes] = useState(data.likes);
 
     const handleCardClick = () => {
         router.push(`/community/${data.id}`);
+    };
+
+    // 좋아요 버튼 클릭 핸들러
+    const handleLikeClick = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
+        
+        try {
+            const response = await togglePostLike(data.id);
+            setIsLiked(response.isLiked);
+            setLikes(response.likeCount);
+        } catch (error) {
+            console.error("좋아요 토글 실패:", error);
+        }
     };
 
     return (
@@ -50,16 +69,14 @@ export function CommunityCard({ data }: { data: CommunityCardData }) {
                         <button
                             type="button"
                             aria-label="좋아요"
-                            onClick={(e) => {
-                                e.stopPropagation(); // 카드 클릭 이벤트 전파 방지
-                            }}
+                            onClick={handleLikeClick}
                             className="
                 ml-auto grid h-8 w-8 place-items-center rounded-full
                 bg-white/80 backdrop-blur
                 hover:bg-ui-itemHover
               "
                         >
-                            <HeartIcon className="h-5 w-5 text-ui-icon" />
+                            <HeartIcon className={`h-5 w-5 ${isLiked ? 'text-red-500' : 'text-ui-icon'}`} />
                         </button>
                     </div>
                 </div>
@@ -78,7 +95,7 @@ export function CommunityCard({ data }: { data: CommunityCardData }) {
                     <div className="ml-auto flex items-center gap-3 text-[14px] text-ui-textMuted">
                         <div className="flex items-center gap-1">
                             <HeartIcon className="h-4 w-4" />
-                            <span>{data.likes}</span>
+                            <span>{likes}</span>
                         </div>
                         <div className="flex items-center gap-1">
                             <span>{data.comments}</span>
