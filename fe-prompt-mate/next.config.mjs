@@ -2,6 +2,17 @@
 const nextConfig = {
   reactStrictMode: true,
 
+  // 외부 이미지 호스트 설정
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "promptmate.s3.ap-northeast-2.amazonaws.com",
+        pathname: "/**",
+      },
+    ],
+  },
+
   // TurboPack 설정 (Next.js 15 개발 환경)
   experimental: {
     turbo: {
