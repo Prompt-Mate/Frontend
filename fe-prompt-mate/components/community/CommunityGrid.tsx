@@ -21,6 +21,7 @@ export function CommunityGrid({ posts, loading }: Props) {
     // imageUrl이 있으면 "image", 없으면 "placeholder"
     thumbnailVariant: post.imageUrl ? "image" : "placeholder",
     imageUrl: post.imageUrl, // imageUrl 전달
+    isLiked: post.isLiked, // 좋아요 상태 전달
   }));
 
   // 로딩 중일 때
