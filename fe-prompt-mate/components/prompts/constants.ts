@@ -132,3 +132,22 @@ export function getCategoryVariant(enumValue: string): "platform" | "productivit
   
   return variantMap[enumValue] || "platform";
 }
+
+/**
+ * 백엔드 enum 형식을 LibraryItemData platform 형식으로 변환
+ * @param enumValue - 백엔드 enum 형식 (예: "CHAT_GPT", "CLAUDE")
+ * @returns LibraryItemData platform 형식 (예: "chatgpt", "claude")
+ */
+export function convertPlatformToLibraryItemFormat(enumValue: string): "chatgpt" | "gemini" | "claude" | "copliot" | "perplexity" | "midjourney" | "dalle" {
+  const platformMap: Record<string, "chatgpt" | "gemini" | "claude" | "copliot" | "perplexity" | "midjourney" | "dalle"> = {
+    "CHAT_GPT": "chatgpt",
+    "GEMINI": "gemini",
+    "CLAUDE": "claude",
+    "COPILOT": "copliot",
+    "PERPLEXITY": "perplexity",
+    "MIDJOURNEY": "midjourney",
+    "DALL_E": "dalle",
+  };
+  
+  return platformMap[enumValue] || "chatgpt";
+}

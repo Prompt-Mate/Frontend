@@ -14,6 +14,26 @@ export interface MyLibraryItem {
   createdAt: string;
 }
 
+// 저장된 게시글 아이템 타입 (my-posts 응답)
+export interface MyPostItem {
+  id: number;
+  rewriteResultId: number;
+  userId: number;
+  nickname: string;
+  title: string;
+  promptContent: string;
+  description: string;
+  visibility: "PUBLIC" | "PRIVATE";
+  createdAt: string;
+  viewCount: number;
+  likeCount: number;
+  commentCount: number;
+  isLiked: boolean;
+  platform: string;
+  category: string;
+  imageUrl: string | null;
+}
+
 // 내 라이브러리 목록 조회 응답 타입
 export interface MyLibrariesResponse {
   totalPages: number;
@@ -91,6 +111,21 @@ export async function getMyLibraries(
     return response;
   } catch (error) {
     console.error("내 라이브러리 목록 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+/**
+ * 저장된 게시글 목록 조회 API 호출
+ * @returns 저장된 게시글 목록 (배열)
+ */
+export async function getMyPosts(): Promise<MyPostItem[]> {
+  try {
+    const response = await apiGet<MyPostItem[]>("/api/libraries/my-posts");
+
+    return response;
+  } catch (error) {
+    console.error("저장된 게시글 목록 조회 API 호출 실패:", error);
     throw error;
   }
 }
