@@ -1,23 +1,53 @@
 import { CommunityCard, CommunityCardData } from "@/components/community/CommunityCard";
+import { type CommunityPost } from "@/services/community";
 
-const MOCK: CommunityCardData[] = Array.from({ length: 12 }).map((_, i) => ({
-    id: String(i + 1),
-    platform: i % 3 === 0 ? "Midjourney" : "Chat gpt",
-    title: i % 3 === 0 ? "미래지향 AR 글래스를 착용한 모델 이미지" : "유튜브 요약 프롬프트",
-    author: "sage0131",
-    likes: 123,
-    comments: 23,
-    thumbnailVariant: i % 3 === 0 ? "image" : "placeholder",
-}));
+interface Props {
+  posts: CommunityPost[];
+  loading: boolean;
+}
 
-export function CommunityGrid() {
+export function CommunityGrid({ posts, loading }: Props) {
+  // API 응답 데이터를 CommunityCardData 형식으로 변환
+  const cardData: CommunityCardData[] = posts.map((post) => ({
+    id: String(post.id),
+    platform: post.platform,
+    title: post.title,
+    author: post.nickname, // nickname 필드 사용
+    likes: post.likeCount, // likeCount 필드 사용
+    comments: post.commentCount, // commentCount 필드 사용
+    // imageUrl이 있으면 "image", 없으면 "placeholder"
+    thumbnailVariant: post.imageUrl ? "image" : "placeholder",
+  }));
+
+  // 로딩 중일 때
+  if (loading) {
     return (
-        <section>
-            <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
-                {MOCK.map((post) => (
-                    <CommunityCard key={post.id} data={post} />
-                ))}
-            </div>
-        </section>
+      <section>
+        <div className="flex items-center justify-center py-20">
+          <p className="text-ui-textMuted">로딩 중...</p>
+        </div>
+      </section>
     );
+  }
+
+  // 게시글이 없을 때
+  if (cardData.length === 0) {
+    return (
+      <section>
+        <div className="flex items-center justify-center py-20">
+          <p className="text-ui-textMuted">게시글이 없습니다.</p>
+        </div>
+      </section>
+    );
+  }
+
+  return (
+    <section>
+      <div className="grid grid-cols-4 gap-4 max-lg:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1">
+        {cardData.map((post) => (
+          <CommunityCard key={post.id} data={post} />
+        ))}
+      </div>
+    </section>
+  );
 }
