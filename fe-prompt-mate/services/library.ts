@@ -130,6 +130,66 @@ export async function getMyPosts(): Promise<MyPostItem[]> {
   }
 }
 
+// 좋아요한 라이브러리 응답 타입 (MyLibrariesResponse와 동일한 구조)
+export interface LikedLibrariesResponse {
+  totalPages: number;
+  totalElements: number;
+  size: number;
+  content: MyPostItem[]; // CommunityPost와 동일한 구조
+  number: number;
+  sort: {
+    empty: boolean;
+    sorted: boolean;
+    unsorted: boolean;
+  };
+  first: boolean;
+  last: boolean;
+  numberOfElements: number;
+  pageable: {
+    offset: number;
+    sort: {
+      empty: boolean;
+      sorted: boolean;
+      unsorted: boolean;
+    };
+    pageSize: number;
+    paged: boolean;
+    pageNumber: number;
+    unpaged: boolean;
+  };
+  empty: boolean;
+}
+
+/**
+ * 좋아요한 라이브러리 목록 조회 API 호출
+ * @param params - 페이지네이션 파라미터 (page, size)
+ * @returns 좋아요한 라이브러리 목록 및 페이지네이션 정보
+ */
+export async function getLikedLibraries(
+  params: GetMyLibrariesParams = {}
+): Promise<LikedLibrariesResponse> {
+  try {
+    const queryParams = new URLSearchParams();
+    
+    if (params.page !== undefined) {
+      queryParams.append("page", String(params.page));
+    }
+    if (params.size !== undefined) {
+      queryParams.append("size", String(params.size));
+    }
+
+    const queryString = queryParams.toString();
+    const endpoint = `/api/libraries/liked${queryString ? `?${queryString}` : ""}`;
+
+    const response = await apiGet<LikedLibrariesResponse>(endpoint);
+
+    return response;
+  } catch (error) {
+    console.error("좋아요한 라이브러리 목록 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
 /**
  * 라이브러리에 프롬프트 저장 API 호출 (multipart/form-data)
  * @param data - 저장할 프롬프트 데이터

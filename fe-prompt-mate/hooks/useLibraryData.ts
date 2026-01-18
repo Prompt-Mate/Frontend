@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LibraryItemData } from "@/components/library/LibraryItem";
 import { getCategoryVariant, convertCategoryFromEnum, convertPlatformToLibraryItemFormat } from "@/components/prompts/constants";
-import { getMyLibraries, getMyPosts, type MyLibrariesResponse } from "@/services/library";
+import { getMyLibraries, getMyPosts, getLikedLibraries, type MyLibrariesResponse } from "@/services/library";
 
 type LibraryTabKey = "saved" | "mine" | "liked";
 
@@ -76,11 +76,36 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
           setItems(mappedItems);
           setTotalCount(data.length);
           setTotalPages(1);
-        } else {
-          // liked 탭은 아직 구현되지 않음
-          setItems([]);
-          setTotalCount(0);
-          setTotalPages(0);
+        } else if (tab === "liked") {
+          // 좋아요한 게시글 (페이지네이션 포함)
+          const data = await getLikedLibraries({
+            page: 0,
+            size: 12,
+          });
+
+          // 데이터 매핑 (saved와 동일한 구조)
+          const mappedItems: LibraryItemData[] = data.content.map((item) => ({
+            id: String(item.id),
+            // 날짜 포맷팅: 2026-01-18T17:52:36... -> 26.01.18
+            date: new Date(item.createdAt)
+              .toLocaleDateString("ko-KR", {
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\./g, "")
+              .replace(/ /g, "."),
+            title: item.title,
+            content: item.promptContent,
+            platform: convertPlatformToLibraryItemFormat(item.platform),
+            category: getCategoryVariant(item.category) as LibraryItemData["category"],
+            tag: convertCategoryFromEnum(item.category),
+            progress: 0,
+          }));
+
+          setItems(mappedItems);
+          setTotalCount(data.totalElements || 0);
+          setTotalPages(data.totalPages || 0);
         }
       } catch (error: any) {
         if (error.name === "AbortError") {
