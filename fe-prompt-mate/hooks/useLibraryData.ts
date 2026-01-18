@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { LibraryItemData } from "@/components/library/LibraryItem";
 import { apiGet } from "@/lib/api";
+import { getCategoryVariant } from "@/components/prompts/constants";
 
 type LibraryTabKey = "saved" | "mine" | "liked";
 
@@ -61,7 +62,7 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
             title: item.savedTitle,
             content: item.content,
             platform: item.platform as LibraryItemData["platform"],
-            category: item.category as LibraryItemData["category"],
+            category: getCategoryVariant(item.category) as LibraryItemData["category"],
             tag: "기타", // API에 tag가 없어서 임시 값 설정
             progress: 0, // API에 없으면 기본값
           }));
