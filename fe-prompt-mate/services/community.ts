@@ -218,3 +218,28 @@ export async function getComments(
   }
 }
 
+// 좋아요 토글 응답 타입
+export interface ToggleLikeResponse {
+  isLiked: boolean;
+  likeCount: number;
+}
+
+/**
+ * 커뮤니티 게시글 좋아요 토글 API 호출
+ * @param postId - 게시글 ID
+ * @returns 좋아요 상태 및 개수
+ */
+export async function togglePostLike(
+  postId: number | string
+): Promise<ToggleLikeResponse> {
+  try {
+    const response = await apiPost<ToggleLikeResponse>(
+      `/api/community/posts/${postId}/likes`
+    );
+    return response;
+  } catch (error) {
+    console.error("좋아요 토글 API 호출 실패:", error);
+    throw error;
+  }
+}
+

@@ -9,6 +9,7 @@ type Props = {
     dateText?: string; // "2025.11.16"
     views?: number;
     likes?: number;
+    isLiked: boolean;
     comments?: number;
     onLikeClick?: () => void;
 };
@@ -31,11 +32,12 @@ function Stat({
 }
 
 export default function PostMetaBar({
-                                        username = "fuji_00",
-                                        dateText = "2025.11.16",
-                                        views = 6136,
-                                        likes = 234,
-                                        comments = 3,
+                                        username,
+                                        dateText,
+                                        views,
+                                        likes,
+                                        isLiked,
+                                        comments,
                                         onLikeClick,
                                     }: Props) {
     return (

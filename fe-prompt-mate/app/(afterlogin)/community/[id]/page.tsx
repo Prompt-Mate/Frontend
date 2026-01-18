@@ -11,7 +11,7 @@ import CopyIcon from "@/assets/icons/Frame 69.svg";
 import UnionMenuIcon from "@/assets/icons/Union.svg";
 import CommentComposer from "@/components/community/detail/CommentComposer";
 import CommentList from "@/components/community/detail/CommentList";
-import { getCommunityPostDetail, type CommunityPost } from "@/services/community";
+import { getCommunityPostDetail, togglePostLike, type CommunityPost } from "@/services/community";
 import { convertPlatformFromEnum } from "@/components/prompts/constants";
 import { getUserInfo } from "@/lib/auth";
 
@@ -35,6 +35,9 @@ export default function CommunityDetailPage() {
     const [error, setError] = useState<string | null>(null);
     // 댓글 목록 새로고침을 위한 trigger (Hooks는 조건부 return 전에 선언)
     const [commentRefreshTrigger, setCommentRefreshTrigger] = useState(0);
+    // 좋아요 상태 (로컬 상태로 관리)
+    const [isLiked, setIsLiked] = useState(false);
+    const [likeCount, setLikeCount] = useState(0);
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -46,6 +49,9 @@ export default function CommunityDetailPage() {
             try {
                 const data = await getCommunityPostDetail(postId);
                 setPost(data);
+                // 좋아요 상태 초기화
+                setIsLiked(data.isLiked);
+                setLikeCount(data.likeCount);
             } catch (error) {
                 console.error("게시글 상세 조회 실패:", error);
                 setError("게시글을 불러올 수 없습니다.");
@@ -95,6 +101,19 @@ export default function CommunityDetailPage() {
         setCommentRefreshTrigger(prev => prev + 1); // trigger 변경으로 CommentList 새로고침
     };
 
+    // 좋아요 버튼 클릭 핸들러
+    const handleLikeClick = async () => {
+        if (!postId) return;
+        
+        try {
+            const response = await togglePostLike(postId);
+            setIsLiked(response.isLiked);
+            setLikeCount(response.likeCount);
+        } catch (error) {
+            console.error("좋아요 토글 실패:", error);
+        }
+    };
+
     return (
         <Container>
             <section className="mt-4">
@@ -106,8 +125,10 @@ export default function CommunityDetailPage() {
                     username={post.nickname}
                     dateText={dateText}
                     views={post.viewCount}
-                    likes={post.likeCount}
+                    likes={likeCount}
+                    isLiked={isLiked}
                     comments={post.commentCount}
+                    onLikeClick={handleLikeClick}
                 />
                 <div className="px-2 mt-4">
                     <SectionTitle
