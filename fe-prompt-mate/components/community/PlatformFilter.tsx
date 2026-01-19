@@ -12,7 +12,7 @@ const PLATFORMS = [
     "Copilot",
     "Perplexity",
     "Midjourney",
-    "DALL·E",
+    "DALL-E",
 ];
 
 export function PlatformFilter({ value, onChange }: Props) {
@@ -32,4 +32,17 @@ export function PlatformFilter({ value, onChange }: Props) {
             ))}
         </div>
     );
+}
+export function convertPlatformToEnum(displayName: string): string {
+    const platformMap: Record<string, string> = {
+        "Chat GPT": "CHAT_GPT",
+        "Gemini": "GEMINI",
+        "Claude": "CLAUDE",
+        "Copilot": "COPILOT",
+        "Perplexity": "PERPLEXITY",
+        "Midjourney": "MIDJOURNEY",
+        "DALL-E": "DALL_E",
+    };
+
+    return platformMap[displayName] || displayName;
 }

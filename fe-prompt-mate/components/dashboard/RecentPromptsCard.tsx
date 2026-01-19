@@ -1,22 +1,10 @@
-import { DashboardCard } from "./DashboardCard";
+"use client";
 
-const RECENTS = [
-    {
-        title: "브랜드 아이덴티티 비주얼 이미지 제작",
-        tags: ["Midjourney", "이미지"],
-        thumbType: "photo" as const,
-    },
-    {
-        title: "브랜드 아이덴티티 비주얼 이미지 제작",
-        tags: ["Midjourney", "이미지"],
-        thumbType: "skeleton" as const,
-    },
-    {
-        title: "브랜드 아이덴티티 비주얼 이미지 제작",
-        tags: ["Midjourney", "이미지"],
-        thumbType: "skeleton" as const,
-    },
-];
+import { useEffect, useState } from "react";
+import { DashboardCard } from "./DashboardCard";
+import { getRecentCommunityPosts } from "@/services/community";
+import { convertPlatformFromEnum, convertCategoryFromEnum, getCategoryVariant } from "@/components/prompts/constants";
+import TagChip from "@/components/common/TagChip";
 
 function ArrowControls() {
     return (
@@ -47,13 +35,6 @@ function ArrowControls() {
     );
 }
 
-function Tag({ children }: { children: string }) {
-    return (
-        <span className="rounded-full bg-[#EEF2FF] px-[10px] py-[4px] text-[11px] font-semibold text-[#6D5EF6]">
-      {children}
-    </span>
-    );
-}
 
 function Thumbnail({ type }: { type: "photo" | "skeleton" }) {
     if (type === "photo") {
@@ -85,7 +66,45 @@ function MoreButton() {
     );
 }
 
+type RecentItem = {
+    title: string;
+    platform: string; // 플랫폼 표시 텍스트
+    category: string; // 카테고리 표시 텍스트
+    categoryEnum: string; // 카테고리 enum (variant 결정용)
+    thumbType: "photo" | "skeleton";
+};
+
 export function RecentPromptsCard() {
+    const [recents, setRecents] = useState<RecentItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchRecents = async () => {
+            try {
+                setLoading(true);
+                const data = await getRecentCommunityPosts();
+                
+                // API 응답을 컴포넌트 형식으로 매핑
+                const mappedItems: RecentItem[] = data.map((item) => ({
+                    title: item.title,
+                    platform: convertPlatformFromEnum(item.platform),
+                    category: convertCategoryFromEnum(item.category),
+                    categoryEnum: item.category, // variant 결정용
+                    thumbType: "skeleton" as const, // 이미지 URL이 없으므로 skeleton
+                }));
+
+                setRecents(mappedItems);
+            } catch (error) {
+                console.error("최근 본 프롬프트 조회 실패:", error);
+                setRecents([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchRecents();
+    }, []);
+
     return (
         <DashboardCard className="h-[320px]">
             <div className="flex items-center justify-between">
@@ -96,27 +115,42 @@ export function RecentPromptsCard() {
             </div>
 
             <div className="mt-[16px] space-y-[14px]">
-                {RECENTS.map((it, i) => (
-                    <div
-                        key={i}
-                        className="flex items-center gap-[14px] rounded-[18px] bg-white px-[14px] py-[12px] shadow-[0_0_0_1px_rgba(15,23,42,0.04)]"
-                    >
-                        <Thumbnail type={it.thumbType} />
-
-                        <div className="min-w-0 flex-1">
-                            <p className="truncate text-[14px] font-semibold text-[#2B2B2B]">
-                                {it.title}
-                            </p>
-                            <div className="mt-[8px] flex items-center gap-[8px]">
-                                {it.tags.map((t) => (
-                                    <Tag key={t}>{t}</Tag>
-                                ))}
-                            </div>
-                        </div>
-
-                        <MoreButton />
+                {loading ? (
+                    <div className="flex items-center justify-center py-10">
+                        <p className="text-[14px] text-black/40">로딩 중...</p>
                     </div>
-                ))}
+                ) : recents.length === 0 ? (
+                    <div className="flex items-center justify-center py-10">
+                        <p className="text-[14px] text-black/40">최근 본 프롬프트가 없습니다.</p>
+                    </div>
+                ) : (
+                    recents.map((it, i) => (
+                        <div
+                            key={i}
+                            className="flex items-center gap-[14px] rounded-[18px] bg-white px-[14px] py-[12px] shadow-[0_0_0_1px_rgba(15,23,42,0.04)]"
+                        >
+                            <Thumbnail type={it.thumbType} />
+
+                            <div className="min-w-0 flex-1">
+                                <p className="truncate text-[14px] font-semibold text-[#2B2B2B]">
+                                    {it.title}
+                                </p>
+                                <div className="mt-[8px] flex items-center gap-[8px]">
+                                    <TagChip 
+                                        label={it.platform} 
+                                        variant="platform" 
+                                    />
+                                    <TagChip 
+                                        label={it.category} 
+                                        variant={getCategoryVariant(it.categoryEnum)} 
+                                    />
+                                </div>
+                            </div>
+
+                            <MoreButton />
+                        </div>
+                    ))
+                )}
             </div>
         </DashboardCard>
     );

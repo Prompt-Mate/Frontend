@@ -1,12 +1,13 @@
-import { DashboardCard } from "./DashboardCard";
+"use client";
 
-const POPULAR = [
-    { title: "PPT 개요 작성", likes: 234 },
-    { title: "PPT 개요 작성", likes: 234 },
-    { title: "PPT 개요 작성", likes: 234 },
-    { title: "PPT 개요 작성", likes: 234 },
-    { title: "PPT 개요 작성", likes: 234 },
-];
+import { useEffect, useState } from "react";
+import { DashboardCard } from "./DashboardCard";
+import { getPopularCommunityPosts } from "@/services/community";
+
+type PopularItem = {
+    title: string;
+    likes: number;
+};
 
 function HeartIcon() {
     return (
@@ -20,6 +21,33 @@ function HeartIcon() {
 }
 
 export function PopularPromptsCard() {
+    const [popular, setPopular] = useState<PopularItem[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPopular = async () => {
+            try {
+                setLoading(true);
+                const data = await getPopularCommunityPosts();
+                
+                // API 응답을 컴포넌트 형식으로 매핑
+                const mappedItems: PopularItem[] = data.map((item) => ({
+                    title: item.title,
+                    likes: item.likeCount,
+                }));
+
+                setPopular(mappedItems);
+            } catch (error) {
+                console.error("인기 프롬프트 조회 실패:", error);
+                setPopular([]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPopular();
+    }, []);
+
     return (
         <DashboardCard className="h-[320px]">
             <h3 className="text-[16px] font-bold text-[#2B2B2B]">
@@ -27,27 +55,37 @@ export function PopularPromptsCard() {
             </h3>
 
             <div className="mt-[18px] space-y-[10px]">
-                {POPULAR.map((it, idx) => (
-                    <div
-                        key={idx}
-                        className="flex items-center rounded-[16px] bg-white px-[14px] py-[12px] shadow-[0_0_0_1px_rgba(15,23,42,0.04)]"
-                    >
-            <span className="w-[22px] text-[13px] font-bold text-[#2B2B2B]">
-              {idx + 1}
-            </span>
-
-                        <span className="flex-1 text-[14px] font-semibold text-[#2B2B2B]">
-              {it.title}
-            </span>
-
-                        <div className="flex items-center gap-[6px]">
-                            <HeartIcon />
-                            <span className="text-[12px] font-semibold text-[#9CA3AF]">
-                {it.likes}
-              </span>
-                        </div>
+                {loading ? (
+                    <div className="flex items-center justify-center py-10">
+                        <p className="text-[14px] text-black/40">로딩 중...</p>
                     </div>
-                ))}
+                ) : popular.length === 0 ? (
+                    <div className="flex items-center justify-center py-10">
+                        <p className="text-[14px] text-black/40">인기 프롬프트가 없습니다.</p>
+                    </div>
+                ) : (
+                    popular.map((it, idx) => (
+                        <div
+                            key={idx}
+                            className="flex items-center rounded-[16px] bg-white px-[14px] py-[12px] shadow-[0_0_0_1px_rgba(15,23,42,0.04)]"
+                        >
+                            <span className="w-[22px] text-[13px] font-bold text-[#2B2B2B]">
+                                {idx + 1}
+                            </span>
+
+                            <span className="flex-1 text-[14px] font-semibold text-[#2B2B2B]">
+                                {it.title}
+                            </span>
+
+                            <div className="flex items-center gap-[6px]">
+                                <HeartIcon />
+                                <span className="text-[12px] font-semibold text-[#9CA3AF]">
+                                    {it.likes}
+                                </span>
+                            </div>
+                        </div>
+                    ))
+                )}
             </div>
         </DashboardCard>
     );

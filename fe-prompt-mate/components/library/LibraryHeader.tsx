@@ -3,11 +3,11 @@
 import { cn } from "@/lib/cn";
 import SearchIcon from "@/assets/icons/meteor-icons_search.svg";
 
-export type LibraryTabKey = "saved" | "mine" | "liked";
+export type LibraryTabKey = "mine" | "saved" | "liked";
 
 const TABS: { key: LibraryTabKey; label: string }[] = [
-  { key: "saved", label: "리라이팅 저장 기록" },
-  { key: "mine", label: "내가 작성한 게시글" },
+  { key: "mine", label: "리라이팅 저장 기록" },
+  { key: "saved", label: "내가 작성한 게시글" },
   { key: "liked", label: "좋아요한 프롬프트" },
 ];
 
