@@ -29,7 +29,7 @@ export default function LibraryPage() {
 
   return (
     <Container>
-      <section className="space-y-6 md:space-y-8 pt-8">
+      <section className="space-y-6 md:space-y-8">
         <LibraryHeader
           search={search}
           onSearchChange={setSearch}
