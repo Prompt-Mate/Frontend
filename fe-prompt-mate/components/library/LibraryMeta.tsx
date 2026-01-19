@@ -14,8 +14,8 @@ export function LibraryMeta({
   return (
     <div className="mt-[14px] flex items-center">
       {/* 왼쪽 */}
-      <div className="text-[14px] font-semibold text-black/60">
-        전체 <span className="text-[#6D5EF6]">{totalCount}개</span>
+      <div className="text-[18px] font-semibold text-black/60">
+        전체 <span className="text-[#6D5EF6]">{totalCount}</span>개
       </div>
 
       {/* 오른쪽 */}

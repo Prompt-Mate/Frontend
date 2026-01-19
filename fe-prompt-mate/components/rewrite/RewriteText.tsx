@@ -10,9 +10,9 @@ import { rewritePrompt } from "@/services/rewrite";
 import { judgePrompt, type JudgeResponse } from "@/services/judge";
 
 interface RewriteTextProps {
-  onComplete?: () => void;      // ✅ 리라이팅 완료 알림 (기존 그대로)
-  onSaveClick?: (rewriteResultId: number) => void;     // ✅ 저장하기 버튼 클릭 (rewriteResultId 전달)
-  onJudgeComplete?: (judgeResult: JudgeResponse) => void; // ✅ 평가 완료 알림
+  onComplete?: () => void;      // 리라이팅 완료 알림 (기존 그대로)
+  onSaveClick?: (rewriteResultId: number) => void;     // 저장하기 버튼 클릭 (rewriteResultId 전달)
+  onJudgeComplete?: (judgeResult: JudgeResponse) => void; // 평가 완료 알림
 }
 
 export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }: RewriteTextProps) {
@@ -58,18 +58,18 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
   };
 
   const handleSave = () => {
-    // ✅ 결과 없으면 저장 버튼 동작 X (안전)
+    // 결과 없으면 저장 버튼 동작 X (안전)
     if (!result || !rewriteResultId) return;
 
     console.log("SAVE CLICK IN RewriteText", rewriteResultId);
-    onSaveClick?.(rewriteResultId); // ✅ rewriteResultId 전달
+    onSaveClick?.(rewriteResultId); // rewriteResultId 전달
   };
 
   return (
     <section
       className="
         max-w-[1200px]
-        min-h-[560px]
+        min-h-[600px]
         flex
         flex-col
         gap-10
@@ -85,12 +85,28 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
         </p>
       </div>
 
-      {/* 카드 영역 */}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-start gap-8 flex-1">
-        <PromptInput onRewrite={handleRewrite} loading={loading} />
-        <RewriteArrow />
+      {/* 입력 / 결과 영역 */}
+      <div
+        className="
+          grid
+          gap-8
+          grid-cols-1
+          xl:grid-cols-[minmax(480px,1fr)_auto_minmax(480px,1fr)]
+          items-start
+        "
+      >
+        {/* 입력 카드 */}
+        <div className="min-h-[420px]">
+          <PromptInput onRewrite={handleRewrite} loading={loading} />
+        </div>
 
-        <div className="flex flex-col h-full">
+        {/* 화살표 (2컬럼일 때만 표시) */}
+        <div className="hidden xl:flex items-center justify-center">
+          <RewriteArrow />
+        </div>
+
+        {/* 결과 카드 */}
+        <div className="min-h-[420px] flex flex-col">
           <RewriteResult result={result} loading={loading} />
 
           <div className="mt-6 flex justify-end">

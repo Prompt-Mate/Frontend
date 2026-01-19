@@ -65,7 +65,7 @@ export default function CommunityPage() {
 
   return (
     <Container>
-      <section className="space-y-6 md:space-y-8">
+     <section className="space-y-6 md:space-y-8 pt-6">
         <CommunityHeader onSearch={setSearch} />
         <CommunityFilter 
           platform={platform}

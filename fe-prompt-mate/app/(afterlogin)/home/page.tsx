@@ -10,7 +10,7 @@ import { CommunityHeader } from "@/components/community/CommunityHeader";
 export default function HomePage() {
   return (
     <Container>
-      <section className="space-y-6 md:space-y-8">
+      <section className="space-y-6 md:space-y-8 pt-6">
         <CommunityHeader />
 
         {/* 1행: Hero / Weekly */}

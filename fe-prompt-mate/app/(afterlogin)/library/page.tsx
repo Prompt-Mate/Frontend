@@ -1,4 +1,3 @@
-// app/(afterlogin)/library/page.tsx
 "use client";
 
 import { useState } from "react";
@@ -30,7 +29,7 @@ export default function LibraryPage() {
 
   return (
     <Container>
-      <section className="space-y-6 md:space-y-8">
+      <section className="space-y-6 md:space-y-8 pt-8">
         <LibraryHeader
           search={search}
           onSearchChange={setSearch}
@@ -52,5 +51,3 @@ export default function LibraryPage() {
     </Container>
   );
 }
-
-// 이 페이지는 사용자의 라이브러리(저장된 프롬프트, 내가 만든 프롬프트 등)를 보여줍니다.
