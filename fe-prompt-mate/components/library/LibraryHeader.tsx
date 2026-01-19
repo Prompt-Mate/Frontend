@@ -31,7 +31,7 @@ export function LibraryHeader({
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
           placeholder="태그, 키워드 검색"
-          className="w-full bg-transparent text-[14px] outline-none placeholder:text-black/30"
+          className="w-full bg-transparent text-[18px] outline-none placeholder:text-black/30"
         />
       </div>
 
@@ -46,7 +46,7 @@ export function LibraryHeader({
                 type="button"
                 onClick={() => onTabChange(t.key)}
                 className={cn(
-                  "pb-[12px] text-[14px] font-semibold transition",
+                  "pb-[12px] text-[18px] font-semibold transition",
                   "border-b-2 border-transparent",
                   active
                     ? "text-black border-black"
