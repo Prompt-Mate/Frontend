@@ -38,6 +38,9 @@ export default function CommunityDetailPage() {
     // 좋아요 상태 (로컬 상태로 관리)
     const [isLiked, setIsLiked] = useState(false);
     const [likeCount, setLikeCount] = useState(0);
+    // 답글 작성 상태
+    const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(null);
+    const [mentionNickname, setMentionNickname] = useState<string>("");
 
     useEffect(() => {
         const fetchPost = async () => {
@@ -67,7 +70,7 @@ export default function CommunityDetailPage() {
     if (loading) {
         return (
             <Container>
-                <section className="mt-4">
+                <section>
                     <div className="flex items-center justify-center py-20">
                         <p className="text-ui-textMuted">로딩 중...</p>
                     </div>
@@ -99,6 +102,21 @@ export default function CommunityDetailPage() {
 
     const handleCommentAdded = () => {
         setCommentRefreshTrigger(prev => prev + 1); // trigger 변경으로 CommentList 새로고침
+        // 답글 작성 완료 시 상태 초기화
+        if (replyingToCommentId) {
+            setReplyingToCommentId(null);
+            setMentionNickname("");
+        }
+    };
+
+    const handleReplyClick = (commentId: string, nickname: string) => {
+        setReplyingToCommentId(commentId);
+        setMentionNickname(nickname);
+    };
+
+    const handleCancelReply = () => {
+        setReplyingToCommentId(null);
+        setMentionNickname("");
     };
 
     // 좋아요 버튼 클릭 핸들러
@@ -116,26 +134,36 @@ export default function CommunityDetailPage() {
 
     return (
         <Container>
-            <section className="mt-4">
-                <PromptDetailView 
-                    title={post.title}
-                    badge={platformLabel}
-                />
-                <PostMetaBar 
-                    username={post.nickname}
-                    dateText={dateText}
-                    views={post.viewCount}
-                    likes={likeCount}
-                    isLiked={isLiked}
-                    comments={post.commentCount}
-                    onLikeClick={handleLikeClick}
-                />
-                <div className="px-2 mt-4">
+            <section className="mt-[50px]">
+                {/* 1) 제목/배지 */}
+                <div className="mb-[19px]">
+                    <PromptDetailView title={post.title} badge={platformLabel} />
+                </div>
+
+                {/* 2) 메타바 */}
+                <div className="mb-[48px]">
+                    <PostMetaBar
+                        username={post.nickname}
+                        dateText={dateText}
+                        views={post.viewCount}
+                        likes={likeCount}
+                        isLiked={isLiked}
+                        comments={post.commentCount}
+                        onLikeClick={handleLikeClick}
+                    />
+                </div>
+
+                {/* 3) 프롬프트 내용 */}
+                <div className="px-2 mb-[24px]">
                     <SectionTitle
                         icon={<MenuIcon />}
                         title="프롬프트 내용"
                         text={post.promptContent}
                     />
+                </div>
+
+                {/* 4) 프롬프트 설명 */}
+                <div className="mt-[40px] mb-[24px]">
                     <SectionTitle
                         icon={<UnionMenuIcon />}
                         title="프롬프트 설명"
@@ -143,15 +171,19 @@ export default function CommunityDetailPage() {
                         text={post.description}
                     />
                 </div>
-                <div className="mt-[40px]">
-                    <CommentComposer 
+
+                {/* 5) 댓글 작성 */}
+                <div className="mt-[46px] mb-[58px]">
+                    <CommentComposer
                         postId={postId}
                         username={currentUsername}
                         onCommentAdded={handleCommentAdded}
                     />
                 </div>
+
+                {/* 6) 댓글 리스트 */}
                 <div className="mt-[70px] mb-[30px]">
-                    <CommentList 
+                    <CommentList
                         key={commentRefreshTrigger}
                         postId={postId}
                         username={currentUsername}
@@ -160,5 +192,6 @@ export default function CommunityDetailPage() {
                 </div>
             </section>
         </Container>
+
     );
 }

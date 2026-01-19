@@ -23,7 +23,7 @@ export default function SectionTitle({ icon, title, right, text }: Props) {
             </div>
 
             {/* 텍스트 박스 */}
-            <div className="mx-auto mt-3 flex items-center justify-center rounded-[20px] bg-[#F8FAFC] px-[36px] pb-[45px] pt-[34px]">
+            <div className="mx-auto mt-[24px] flex items-center justify-center rounded-[20px] bg-[#F8FAFC] px-[36px] pb-[45px] pt-[34px]">
                 <p className="whitespace-pre-wrap text-[14px] leading-[22px] text-black/70">
                     {text}
                 </p>
