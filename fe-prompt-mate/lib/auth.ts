@@ -14,8 +14,8 @@ export interface UserInfo {
 export interface AuthResponse {
   userId: number;
   email: string;
-  nickname: string;
-  jwtAceessToken: string;
+  nickName: string;
+  jwtAccessToken: string;
   jwtRefreshToken: string;
 }
 
@@ -82,12 +82,12 @@ export function getUserInfo(): UserInfo | null {
 
 // 인증 정보 저장 (로그인 성공 시)
 export function saveAuthData(authData: AuthResponse) {
-  setAccessToken(authData.jwtAceessToken);
+  setAccessToken(authData.jwtAccessToken);
   setRefreshToken(authData.jwtRefreshToken);
   setUserInfo({
     userId: authData.userId,
     email: authData.email,
-    nickname: authData.nickname,
+    nickname: authData.nickName, // 백엔드는 nickName, 내부에서는 nickname 사용
   });
 }
 

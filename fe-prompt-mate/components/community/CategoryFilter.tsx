@@ -133,3 +133,14 @@ export function CategoryFilter({ value, onChange }: Props) {
     </div>
   );
 }
+
+export function convertCategoryToEnum(label: string): string {
+    const categoryMap: Record<string, string> = {
+        "업무/생산성": "WORK_PRODUCTIVITY",
+        "학습": "STUDY",
+        "콘텐츠": "CONTENT",
+        "일상": "DAILY",
+    };
+
+    return categoryMap[label] || label;
+}

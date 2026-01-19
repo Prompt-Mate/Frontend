@@ -69,7 +69,7 @@ export default function TagChip({
   variant,
   className = "",
 }: Props) {
-  const v = VARIANT_STYLE[variant];
+  const v = VARIANT_STYLE[variant] || VARIANT_STYLE.platform; // 기본값 fallback
 
   return (
     <span
@@ -78,7 +78,7 @@ export default function TagChip({
         // 칩 스펙: height 30 / padding 10 17 / gap 5 / radius 12
         "h-[30px] px-[17px] py-[10px] gap-[5px]",
         "rounded-[12px]",
-        v.bgClass,
+        v?.bgClass,
         className
       )}
       style={{

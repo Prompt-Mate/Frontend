@@ -1,3 +1,6 @@
+"use client";
+
+import { useRouter } from "next/navigation";
 import { DashboardCard } from "./DashboardCard";
 
 function SparkleIcon() {
@@ -15,6 +18,12 @@ function SparkleIcon() {
 }
 
 export function HeroCard() {
+    const router = useRouter();
+
+    const handleButtonClick = () => {
+        router.push("/prompts");
+    };
+
     return (
         <DashboardCard
             className={[
@@ -44,6 +53,7 @@ export function HeroCard() {
 
                 <div className="pb-[6px]">
                     <button
+                        onClick={handleButtonClick}
                         className={[
                             "h-[52px] w-[220px] rounded-full",
                             " bg-[#5527F5]",

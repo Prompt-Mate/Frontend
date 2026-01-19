@@ -2,15 +2,21 @@
 
 import * as React from "react";
 
-export function CommunityListHeader() {
-    const [sort, setSort] = React.useState<"최신순" | "추천순" | "조회순" | "좋아요">(
-        "최신순"
-    );
+interface Props {
+  totalCount?: number;
+  sort?: "최신순" | "조회순" | "좋아요";
+  onSortChange?: (sort: "최신순" | "조회순" | "좋아요") => void;
+}
 
+export function CommunityListHeader({ 
+  totalCount = 0, 
+  sort = "최신순",
+  onSortChange 
+}: Props) {
     return (
         <section className="mb-4 flex items-center justify-between">
-        <PostCount count={132} />
-    <SortTabs value={sort} onChange={setSort} />
+        <PostCount count={totalCount} />
+    <SortTabs value={sort} onChange={onSortChange || (() => {})} />
     </section>
 );
 }
@@ -27,10 +33,10 @@ function SortTabs({
                       value,
                       onChange,
                   }: {
-    value: "최신순" | "추천순" | "조회순" | "좋아요";
+    value: "최신순" | "조회순" | "좋아요";
     onChange: (v: any) => void;
 }) {
-    const tabs: Array<typeof value> = ["최신순", "추천순", "조회순", "좋아요"];
+    const tabs: Array<typeof value> = ["최신순", "조회순", "좋아요"];
 
     return (
         <div className="flex items-center gap-3 text-[14px]">

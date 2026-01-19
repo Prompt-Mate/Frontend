@@ -18,7 +18,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ko" className={pretendard.variable}>
-      <body className="min-h-screen">
+      <body className="min-h-screen" suppressHydrationWarning>
         <AuthProvider>
           {children}
           {modal}
