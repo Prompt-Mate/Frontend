@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createComment } from "@/services/community";
 
 interface Props {
     postId: number | string;
     username: string;
     parentId?: number | string | null; // 대댓글인 경우 부모 댓글 ID
+    mentionNickname?: string; // 멘션할 닉네임 (답글 작성 시)
     onCommentAdded?: () => void; // 댓글 추가 후 콜백 (댓글 목록 새로고침용)
     onCancel?: () => void; // 취소 버튼 클릭 시 콜백 (대댓글 작성 취소용)
     showCancelButton?: boolean; // 취소 버튼 표시 여부
@@ -16,6 +17,7 @@ export default function CommentComposer({
     postId, 
     username,
     parentId = null,
+    mentionNickname,
     onCommentAdded,
     onCancel,
     showCancelButton = false,
@@ -26,6 +28,13 @@ export default function CommentComposer({
 
     const maxLength = 1000;
     const characterCount = content.length;
+
+    // 답글 모드일 때 초기값 설정
+    useEffect(() => {
+        if (parentId && mentionNickname && !content) {
+            setContent(`@${mentionNickname} `);
+        }
+    }, [parentId, mentionNickname]);
 
     const handleSubmit = async () => {
         // 유효성 검사
@@ -43,15 +52,23 @@ export default function CommentComposer({
             setSubmitting(true);
             setError(null);
 
+            // API 요청 시 content에서 @mentionNickname 부분 제거
+            let requestContent = content.trim();
+            if (mentionNickname && requestContent.startsWith(`@${mentionNickname} `)) {
+                requestContent = requestContent.slice(`@${mentionNickname} `.length);
+            }
+
             await createComment(postId, {
                 parentId: parentId ? Number(parentId) : null,
-                content: content.trim(),
+                content: requestContent,
             });
 
             // 성공 시 입력 필드 초기화 및 콜백 호출
             setContent("");
             onCommentAdded?.();
-            onCancel?.(); // 대댓글 작성 완료 시 닫기
+            if (parentId) {
+                onCancel?.(); // 대댓글 작성 완료 시 닫기
+            }
         } catch (error) {
             console.error("댓글 등록 실패:", error);
             setError("댓글 등록 중 오류가 발생했습니다.");
@@ -97,7 +114,7 @@ export default function CommentComposer({
                     setContent(e.target.value);
                     setError(null); // 입력 시 에러 메시지 제거
                 }}
-                placeholder="댓글을 입력해보세요."
+                placeholder={parentId && mentionNickname ? "" : "댓글을 입력해보세요."}
                 maxLength={maxLength}
                 className="
           mt-[79px]            /* 32 + 프로필 높이(32) + 간격 15 */
@@ -137,7 +154,7 @@ export default function CommentComposer({
         </span>
 
                 {/* 취소 버튼 (대댓글 작성 시) */}
-                {showCancelButton && (
+                {(showCancelButton || parentId) && (
                     <button
                         onClick={onCancel}
                         disabled={submitting}

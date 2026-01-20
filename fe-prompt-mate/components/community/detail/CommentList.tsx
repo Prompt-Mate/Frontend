@@ -25,17 +25,16 @@ function formatDate(dateString: string): string {
     return `${year}.${month}.${day}`;
 }
 
-interface CommentListProps {
+export interface CommentListProps {
     postId: number | string;
     username: string; // 사용자 닉네임 (대댓글 작성용)
     onCommentAdded?: () => void; // 댓글 목록 새로고침용
+    onReplyClick?: (commentId: string, mentionNickname: string) => void; // 답글 버튼 클릭 시 콜백
 }
 
-export default function CommentList({ postId, username, onCommentAdded }: CommentListProps) {
+export default function CommentList({ postId, username, onCommentAdded, onReplyClick }: CommentListProps) {
     const [comments, setComments] = useState<UiComment[]>([]);
     const [loading, setLoading] = useState(true);
-    // 답글 작성 중인 댓글 ID (null이면 답글 작성 안 하는 중)
-    const [replyingToCommentId, setReplyingToCommentId] = useState<string | null>(null);
 
     // 댓글 목록 조회
     const fetchComments = async () => {
@@ -120,12 +119,8 @@ export default function CommentList({ postId, username, onCommentAdded }: Commen
         fetchComments();
     }, [postId]);
 
-    const handleReplyClick = (commentId: string) => {
-        setReplyingToCommentId(commentId);
-    };
-
-    const handleCancelReply = () => {
-        setReplyingToCommentId(null);
+    const handleReplyClick = (commentId: string, mentionNickname: string) => {
+        onReplyClick?.(commentId, mentionNickname);
     };
 
     const handleCommentAdded = () => {
@@ -153,21 +148,8 @@ export default function CommentList({ postId, username, onCommentAdded }: Commen
                 <div key={c.id}>
                     <CommentRow 
                         item={c} 
-                        onReplyClick={() => handleReplyClick(c.id)}
+                        onReplyClick={() => handleReplyClick(c.id, c.author.nickname)}
                     />
-                    {/* 답글 작성 중인 댓글 아래에 CommentComposer 표시 */}
-                    {replyingToCommentId === c.id && (
-                        <div className="mt-4 ml-11">
-                            <CommentComposer
-                                postId={postId}
-                                username={username}
-                                parentId={Number(c.id)}
-                                onCommentAdded={handleCommentAdded}
-                                onCancel={handleCancelReply}
-                                showCancelButton={true}
-                            />
-                        </div>
-                    )}
                 </div>
                 ))
             )}

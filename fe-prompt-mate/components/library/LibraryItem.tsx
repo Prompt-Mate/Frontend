@@ -106,7 +106,24 @@ export function LibraryItem({
             <KebabButton />
           </div>
         </div>
+        <div className="relative mt-[4px]">
+          {/* 내용 텍스트 */}
+          <p className="text-[12px] text-[#B5B8BB]">
+            {item.content}
+          </p>
 
+          {/* 하단 블러/그라데이션 효과 */}
+          <div
+            className="
+              pointer-events-none
+              absolute inset-x-0 bottom-0
+              h-[14px]
+              bg-gradient-to-t
+              from-white
+              to-transparent
+            "
+          />
+        </div>
         <div className="mt-[10px] flex gap-[8px]">
           <TagChip variant="platform" label={platformLabel} />
           <TagChip
@@ -115,17 +132,6 @@ export function LibraryItem({
             iconSrc={categoryIconSrc}
           />
         </div>
-
-        <div className="mt-[14px] h-[4px] w-full rounded-full bg-black/5">
-          <div
-            className="h-full rounded-full bg-[#B9ABFF]"
-            style={{ width: `${p}%` }}
-          />
-        </div>
-
-        <p className="mt-[6px] text-[12px] text-black/30">
-          총점 {p}점
-        </p>
       </article>
     </Link>
   );

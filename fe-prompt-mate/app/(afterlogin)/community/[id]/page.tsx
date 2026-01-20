@@ -10,7 +10,7 @@ import MenuIcon from "@/assets/icons/Group 2147202980.svg";
 import CopyIcon from "@/assets/icons/Frame 69.svg";
 import UnionMenuIcon from "@/assets/icons/Union.svg";
 import CommentComposer from "@/components/community/detail/CommentComposer";
-import CommentList from "@/components/community/detail/CommentList";
+import CommentList, { type CommentListProps } from "@/components/community/detail/CommentList";
 import { getCommunityPostDetail, togglePostLike, type CommunityPost } from "@/services/community";
 import { convertPlatformFromEnum } from "@/components/prompts/constants";
 import { getUserInfo } from "@/lib/auth";
@@ -177,7 +177,11 @@ export default function CommunityDetailPage() {
                     <CommentComposer
                         postId={postId}
                         username={currentUsername}
+                        parentId={replyingToCommentId ? Number(replyingToCommentId) : null}
+                        mentionNickname={mentionNickname}
                         onCommentAdded={handleCommentAdded}
+                        onCancel={handleCancelReply}
+                        showCancelButton={!!replyingToCommentId}
                     />
                 </div>
 
@@ -188,6 +192,7 @@ export default function CommunityDetailPage() {
                         postId={postId}
                         username={currentUsername}
                         onCommentAdded={handleCommentAdded}
+                        onReplyClick={handleReplyClick}
                     />
                 </div>
             </section>

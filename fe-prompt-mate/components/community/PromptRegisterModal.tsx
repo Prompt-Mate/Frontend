@@ -24,6 +24,16 @@ function cn(...xs: Array<string | false | undefined | null>) {
 }
 
 
+function ModalShell({ asPage, children }) {
+    if (asPage) return <>{children}</>;
+
+    return (
+        <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 px-4">
+            {children}
+        </div>
+    );
+}
+
 export default function PromptRegisterModal({ asPage = false }: { asPage?: boolean }) {
     const router = useRouter();
 
@@ -199,18 +209,10 @@ export default function PromptRegisterModal({ asPage = false }: { asPage?: boole
         }
     };
 
-    const ModalShell = ({ children }: { children: React.ReactNode }) => {
-        if (asPage) return <>{children}</>;
 
-        return (
-            <div className="fixed inset-0 z-[999] flex items-center justify-center bg-black/40 px-4">
-                {children}
-            </div>
-        );
-    };
 
     return (
-        <ModalShell>
+        <ModalShell asPage={asPage}>
             <section
                 className={cn(
                     "flex h-[608px] w-full max-w-[738px] flex-col overflow-hidden rounded-[28px] bg-white",
