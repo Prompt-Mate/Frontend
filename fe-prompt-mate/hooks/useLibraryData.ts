@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LibraryItemData } from "@/components/library/LibraryItem";
 import { getCategoryVariant, convertCategoryFromEnum, convertPlatformToLibraryItemFormat } from "@/components/prompts/constants";
-import { getMyLibraries, getMyPosts, getLikedLibraries, type MyLibrariesResponse } from "@/services/library";
+import { getMyLibraries, getMyPosts, getLikedLibraries, searchLibraries, type MyLibrariesResponse } from "@/services/library";
 
 type LibraryTabKey = "saved" | "mine" | "liked";
 
@@ -19,6 +19,41 @@ export function useLibraryData(tab: LibraryTabKey, search: string) {
     const fetchData = async () => {
       setLoading(true);
       try {
+        // 검색어가 있으면 검색 API 사용
+        if (search.trim()) {
+          const data = await searchLibraries({
+            keyword: search.trim(),
+            page: 0,
+            size: 12,
+          });
+
+          // 데이터 매핑
+          const mappedItems: LibraryItemData[] = data.content.map((item) => ({
+            id: String(item.id),
+            // 날짜 포맷팅: 2026-01-18T18:50:46... -> 26.01.18
+            date: new Date(item.createdAt)
+              .toLocaleDateString("ko-KR", {
+                year: "2-digit",
+                month: "2-digit",
+                day: "2-digit",
+              })
+              .replace(/\./g, "")
+              .replace(/ /g, "."),
+            title: item.savedTitle,
+            content: item.content,
+            platform: convertPlatformToLibraryItemFormat(item.platform),
+            category: getCategoryVariant(item.category) as LibraryItemData["category"],
+            tag: convertCategoryFromEnum(item.category),
+            progress: 0,
+          }));
+
+          setItems(mappedItems);
+          setTotalCount(data.totalElements || 0);
+          setTotalPages(data.totalPages || 0);
+          return;
+        }
+
+        // 검색어가 없으면 기존 탭별 API 사용
         if (tab === "mine") {
           // 내가 만든 프롬프트
           const data = await getMyLibraries({

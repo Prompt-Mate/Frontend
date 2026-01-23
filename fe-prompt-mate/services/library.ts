@@ -271,3 +271,51 @@ export async function getLibraryDetail(id: number | string): Promise<LibraryDeta
   }
 }
 
+// 라이브러리 검색 파라미터
+export interface SearchLibrariesParams {
+  keyword?: string;
+  platform?: string;
+  category?: string;
+  page?: number;
+  size?: number;
+}
+
+/**
+ * 라이브러리 검색 API 호출
+ * @param params - 검색 파라미터 (keyword, platform, category, page, size)
+ * @returns 검색 결과 및 페이지네이션 정보
+ */
+export async function searchLibraries(
+  params: SearchLibrariesParams = {}
+): Promise<MyLibrariesResponse> {
+  try {
+    const queryParams = new URLSearchParams();
+    
+    if (params.keyword) {
+      queryParams.append("keyword", params.keyword);
+    }
+    if (params.platform) {
+      queryParams.append("platform", params.platform);
+    }
+    if (params.category) {
+      queryParams.append("category", params.category);
+    }
+    if (params.page !== undefined) {
+      queryParams.append("page", String(params.page));
+    }
+    if (params.size !== undefined) {
+      queryParams.append("size", String(params.size));
+    }
+
+    const queryString = queryParams.toString();
+    const endpoint = `/api/libraries/search${queryString ? `?${queryString}` : ""}`;
+
+    const response = await apiGet<MyLibrariesResponse>(endpoint);
+
+    return response;
+  } catch (error) {
+    console.error("라이브러리 검색 API 호출 실패:", error);
+    throw error;
+  }
+}
+
