@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import Image from "next/image";
 import Container from "@/components/layout/Container";
 import LibraryDetailHeader from "@/components/library/detail/LibraryDetailHeader";
 import PromptContentCard from "@/components/library/detail/PromptContentCard";
@@ -113,6 +114,20 @@ export default function LibraryDetailPage() {
           category={categoryLabel}
           categoryVariant={categoryVariant}
         />
+        {/* 2-1) 이미지 (imageUrl이 있을 때만 표시) */}
+        {data.imageUrl && (
+                    <div className="mb-[48px]">
+                        <div className="relative w-full" style={{ aspectRatio: '958.379 / 540.624' }}>
+                            <Image
+                                src={data.imageUrl}
+                                alt={data.savedTitle}
+                                fill
+                                className="rounded-t-[20px] object-cover"
+                                sizes="(max-width: 768px) 100vw, 958px"
+                            />
+                        </div>
+                    </div>
+                )}
         <PromptContentCard content={data.originalPrompt} />
         <RewriteResultCard content={data.rewrittenContent} />
         <EvaluationResultSection judgeResult={judgeResponse} />

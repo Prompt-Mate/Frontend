@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import Image from "next/image";
 import Container from "@/components/layout/Container";
 import PromptDetailView from "@/components/community/detail/PostDetailHeader";
 import PostMetaBar from "@/components/community/detail/PostMetaBar";
@@ -169,6 +170,21 @@ export default function CommunityDetailPage() {
                         onLikeClick={handleLikeClick}
                     />
                 </div>
+
+                {/* 2-1) 이미지 (imageUrl이 있을 때만 표시) */}
+                {post.imageUrl && (
+                    <div className="mb-[48px]">
+                        <div className="relative w-full" style={{ aspectRatio: '958.379 / 540.624' }}>
+                            <Image
+                                src={post.imageUrl}
+                                alt={post.title}
+                                fill
+                                className="rounded-t-[20px] object-cover"
+                                sizes="(max-width: 768px) 100vw, 958px"
+                            />
+                        </div>
+                    </div>
+                )}
 
                 {/* 3) 프롬프트 내용 */}
                 <div className="px-2 mb-[24px]">
