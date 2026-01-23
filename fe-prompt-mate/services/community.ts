@@ -1,5 +1,5 @@
 // services/community.ts
-import { apiGet, apiPost, apiDelete } from "@/lib/api";
+import { apiGet, apiPost, apiDelete, apiPatch } from "@/lib/api";
 
 // API 요청 파라미터 타입 정의
 export interface GetCommunityPostsParams {
@@ -291,6 +291,33 @@ export async function getPopularCommunityPosts(): Promise<CommunityPost[]> {
     return response;
   } catch (error) {
     console.error("인기 프롬프트 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+// 게시글 수정 요청 타입
+export interface UpdateCommunityPostRequest {
+  description: string;
+}
+
+/**
+ * 커뮤니티 게시글 수정 API 호출
+ * @param postId - 게시글 ID
+ * @param data - 수정할 데이터 (description)
+ * @returns 수정된 게시글 정보
+ */
+export async function updateCommunityPost(
+  postId: number | string,
+  data: UpdateCommunityPostRequest
+): Promise<CommunityPost> {
+  try {
+    const response = await apiPatch<CommunityPost>(
+      `/api/community/posts/${postId}`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.error("커뮤니티 게시글 수정 API 호출 실패:", error);
     throw error;
   }
 }

@@ -110,6 +110,19 @@ export function apiPut<T>(
   });
 }
 
+// PATCH 요청
+export function apiPatch<T>(
+  endpoint: string,
+  data?: unknown,
+  options?: RequestInit
+): Promise<T> {
+  return apiRequest<T>(endpoint, {
+    ...options,
+    method: "PATCH",
+    body: data ? JSON.stringify(data) : undefined,
+  });
+}
+
 // DELETE 요청
 export function apiDelete<T>(endpoint: string, options?: RequestInit): Promise<T> {
   return apiRequest<T>(endpoint, { ...options, method: "DELETE" });
