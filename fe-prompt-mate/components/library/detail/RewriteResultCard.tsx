@@ -1,6 +1,10 @@
 import UnionIcon from "@/assets/icons/Union.svg";
 
-export default function RewriteResultCard() {
+interface RewriteResultCardProps {
+  content: string;
+}
+
+export default function RewriteResultCard({ content }: RewriteResultCardProps) {
   return (
     <section className="rounded-[24px] bg-white p-8">
       {/* 🔹 아이콘 + 제목 가로 정렬 */}
@@ -14,7 +18,7 @@ export default function RewriteResultCard() {
 
       {/* 결과 카드 */}
       <div className="rounded-[16px] bg-[#F8FAFC] p-6 text-[16px] w-[960px]  leading-relaxed text-[#343434]">
-        아직 리라이팅 결과가 없습니다.
+        {content || "아직 리라이팅 결과가 없습니다."}
       </div>
     </section>
   );

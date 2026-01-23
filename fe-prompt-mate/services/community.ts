@@ -1,5 +1,5 @@
 // services/community.ts
-import { apiGet, apiPost } from "@/lib/api";
+import { apiGet, apiPost, apiDelete } from "@/lib/api";
 
 // API 요청 파라미터 타입 정의
 export interface GetCommunityPostsParams {
@@ -138,6 +138,21 @@ export async function getCommunityPostDetail(
     return response;
   } catch (error) {
     console.error("커뮤니티 게시글 상세 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+
+/**
+ * 커뮤니티 게시글 삭제 API 호출
+ * @param postId - 게시글 ID
+ */
+export async function deleteCommunityPost(
+  postId: number | string
+): Promise<void> {
+  try {
+    await apiDelete<void>(`/api/community/posts/${postId}`);
+  } catch (error) {
+    console.error("커뮤니티 게시글 삭제 API 호출 실패:", error);
     throw error;
   }
 }

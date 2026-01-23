@@ -7,11 +7,15 @@ import ActionMenu from "@/components/ActionMenu";
 type Props = {
     title?: string;
     badge?: string;
+    onEditClick?: () => void;
+    onDeleteClick?: () => void;
 };
 
 export default function PostDetailHeader({
                                              title = "논문 분석/ 요약 프롬프트",
                                              badge = "Chat GPT",
+                                             onEditClick,
+                                             onDeleteClick,
                                          }: Props) {
     const [isOpen, setIsOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -68,8 +72,8 @@ export default function PostDetailHeader({
                     {isOpen && (
                         <div className="absolute right-0 top-full mt-1 z-20">
                             <ActionMenu
-                                onEdit={() => console.log("수정 클릭")}
-                                onDelete={() => console.log("삭제 클릭")}
+                                onEdit={onEditClick}
+                                onDelete={onDeleteClick}
                             />
                         </div>
                     )}

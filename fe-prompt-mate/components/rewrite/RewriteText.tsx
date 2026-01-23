@@ -28,14 +28,17 @@ export default function RewriteText({ onComplete, onSaveClick, onJudgeComplete }
     setRewriteResultId(null);
 
     try {
-      // rewrite와 judge API를 병렬로 호출
-      const [rewriteResponse, judgeResult] = await Promise.all([
-        rewritePrompt(text),
-        judgePrompt(text),
-      ]);
-
+      // 1. 먼저 rewrite API 호출
+      const rewriteResponse = await rewritePrompt(text);
+      
       setResult(rewriteResponse.rewrittenPrompt);
       setRewriteResultId(rewriteResponse.rewriteResultId);
+      
+      // 2. rewriteResultId를 받은 후 judge API 호출
+      const judgeResult = await judgePrompt(
+        rewriteResponse.rewriteResultId,
+        text
+      );
       
       // 평가 결과를 상위 컴포넌트로 전달
       onJudgeComplete?.(judgeResult);

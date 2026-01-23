@@ -225,3 +225,49 @@ export async function saveToLibrary(data: SaveLibraryRequest): Promise<SaveLibra
   }
 }
 
+// 라이브러리 상세 조회 응답 타입 (API 응답 형식 - camelCase)
+export interface LibraryDetailJudge {
+  id: number;
+  overallScore: number;
+  clarityScore: number;
+  specificityScore: number;
+  structureScore: number;
+  languageScore: number;
+  consistencyScore: number;
+  clarityComment: string;
+  specificityComment: string;
+  structureComment: string;
+  languageComment: string;
+  consistencyComment: string;
+  summaryFeedback: string;
+}
+
+export interface LibraryDetailResponse {
+  id: number;
+  userId: number;
+  savedTitle: string;
+  platform: string; // "CHAT_GPT" | "GEMINI" | ...
+  category: string; // "WORK_PRODUCTIVITY" | "STUDY" | ...
+  imageUrl: string | null;
+  createdAt: string;
+  rewriteResultId: number;
+  rewrittenContent: string;
+  originalPrompt: string;
+  judge: LibraryDetailJudge | null;
+}
+
+/**
+ * 라이브러리 상세 조회 API 호출
+ * @param id - 라이브러리 ID
+ * @returns 라이브러리 상세 정보
+ */
+export async function getLibraryDetail(id: number | string): Promise<LibraryDetailResponse> {
+  try {
+    const response = await apiGet<LibraryDetailResponse>(`/api/libraries/my/${id}`);
+    return response;
+  } catch (error) {
+    console.error("라이브러리 상세 조회 API 호출 실패:", error);
+    throw error;
+  }
+}
+

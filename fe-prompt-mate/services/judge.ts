@@ -19,17 +19,23 @@ export interface JudgeResponse {
 
 // API 요청 타입 정의
 interface JudgeRequest {
+  rewriteResultId: number;
   prompt: string;
 }
 
 /**
  * 프롬프트 평가 API 호출
+ * @param rewriteResultId - 리라이팅 결과 ID
  * @param prompt - 평가할 프롬프트 문자열
  * @returns 평가 결과 객체
  */
-export async function judgePrompt(prompt: string): Promise<JudgeResponse> {
+export async function judgePrompt(
+  rewriteResultId: number,
+  prompt: string
+): Promise<JudgeResponse> {
   try {
     const requestData: JudgeRequest = {
+      rewriteResultId: rewriteResultId,
       prompt: prompt,
     };
 

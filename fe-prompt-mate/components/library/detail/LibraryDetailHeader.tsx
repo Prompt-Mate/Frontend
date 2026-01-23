@@ -3,7 +3,19 @@
 import { useEffect, useRef, useState } from "react";
 import TagChip from "@/components/common/TagChip";
 
-export default function LibraryDetailHeader() {
+interface LibraryDetailHeaderProps {
+  title: string;
+  platform: string;
+  category: string;
+  categoryVariant: "platform" | "productivity" | "study" | "content" | "daily";
+}
+
+export default function LibraryDetailHeader({
+  title,
+  platform,
+  category,
+  categoryVariant,
+}: LibraryDetailHeaderProps) {
   const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -28,21 +40,21 @@ export default function LibraryDetailHeader() {
     <header className="px-10 pt-8">
       {/* ✅ 왼쪽 전체 묶음 (제목 + 아래 태그칩) */}
       <div className="flex items-start justify-between">
-        <div className="space-y-4">
-          {/* 제목 + 플랫폼 태그 */}
-          <div className="flex items-center gap-3">
-            <h1 className="text-[31px] font-bold text-black">
-              논문 분석/요약 프롬프트
-            </h1>
+          <div className="space-y-4">
+            {/* 제목 + 플랫폼 태그 */}
+            <div className="flex items-center gap-3">
+              <h1 className="text-[31px] font-bold text-black">
+                {title}
+              </h1>
 
-            <TagChip variant="platform" label="Chat GPT" />
-          </div>
+              <TagChip variant="platform" label={platform} />
+            </div>
 
-          {/* ⬇️ 제목 아래 태그칩 (간격 16px) */}
+            {/* ⬇️ 제목 아래 태그칩 (간격 16px) */}
 
            <div className="rounded-[16px] bg-[#F8FAFC] p-3 h-[58px] w-[960px] leading-relaxed">
-           <TagChip variant="platform" label="Chat GPT" />
-            <TagChip variant="productivity" label="보고서" />
+           <TagChip variant="platform" label={platform} />
+            <TagChip variant={categoryVariant} label={category} />
         </div>
         </div>
 

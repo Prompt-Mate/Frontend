@@ -2,7 +2,11 @@ import Image from "next/image";
 import TagChip from "@/components/common/TagChip";
 import InputPromptIcon from "@/assets/icons/Group 2147202980.svg";
 
-export default function PromptContentCard() {
+interface PromptContentCardProps {
+  content: string;
+}
+
+export default function PromptContentCard({ content }: PromptContentCardProps) {
   return (
     <section
       className="
@@ -51,8 +55,7 @@ export default function PromptContentCard() {
 
 
         <div className="rounded-[16px] bg-[#F8FAFC] p-6 text-[16px] w-[960px]  leading-relaxed text-[#343434]">
-          이 프롬프트를 사용해서 논문을 분석하고 핵심 내용을
-          요약해줘. 중요한 개념과 결과를 중심으로 정리해줘.
+          {content}
         </div>
       </div>
     </section>

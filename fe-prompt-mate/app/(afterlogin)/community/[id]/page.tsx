@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Container from "@/components/layout/Container";
 import PromptDetailView from "@/components/community/detail/PostDetailHeader";
 import PostMetaBar from "@/components/community/detail/PostMetaBar";
@@ -11,7 +11,7 @@ import CopyIcon from "@/assets/icons/Frame 69.svg";
 import UnionMenuIcon from "@/assets/icons/Union.svg";
 import CommentComposer from "@/components/community/detail/CommentComposer";
 import CommentList, { type CommentListProps } from "@/components/community/detail/CommentList";
-import { getCommunityPostDetail, togglePostLike, type CommunityPost } from "@/services/community";
+import { getCommunityPostDetail, togglePostLike, deleteCommunityPost, type CommunityPost } from "@/services/community";
 import { convertPlatformFromEnum } from "@/components/prompts/constants";
 import { getUserInfo } from "@/lib/auth";
 
@@ -29,6 +29,7 @@ function formatDate(dateString: string): string {
 export default function CommunityDetailPage() {
     const params = useParams();
     const postId = params?.id as string;
+    const router = useRouter();
     
     const [post, setPost] = useState<CommunityPost | null>(null);
     const [loading, setLoading] = useState(true);
@@ -132,12 +133,28 @@ export default function CommunityDetailPage() {
         }
     };
 
+    const handleDeletePost = async () => {
+        if (!postId) return;
+        try {
+            await deleteCommunityPost(postId);
+            // 삭제 후 커뮤니티 목록으로 이동
+            router.push("/community");
+        } catch (error) {
+            console.error("게시글 삭제 실패:", error);
+            alert("게시글 삭제 중 오류가 발생했습니다.");
+        }
+    };
+
     return (
         <Container>
             <section className="mt-[50px]">
                 {/* 1) 제목/배지 */}
                 <div className="mb-[19px]">
-                    <PromptDetailView title={post.title} badge={platformLabel} />
+                    <PromptDetailView
+                        title={post.title}
+                        badge={platformLabel}
+                        onDeleteClick={handleDeletePost}
+                    />
                 </div>
 
                 {/* 2) 메타바 */}
