@@ -6,13 +6,13 @@ import { DashboardCard } from "./DashboardCard";
 type DayKey = "월" | "화" | "수" | "목" | "금" | "토" | "일";
 
 const SAMPLE = [
-    { day: "월" as DayKey, score: 88, count: 10, date: "2025. 11. 24" },
-    { day: "화" as DayKey, score: 82, count: 9, date: "2025. 11. 25" },
-    { day: "수" as DayKey, score: 74, count: 8, date: "2025. 11. 26" },
-    { day: "목" as DayKey, score: 90, count: 12, date: "2025. 11. 28" },
-    { day: "금" as DayKey, score: 79, count: 7, date: "2025. 11. 29" },
-    { day: "토" as DayKey, score: 71, count: 6, date: "2025. 11. 30" },
-    { day: "일" as DayKey, score: 66, count: 5, date: "2025. 12. 01" },
+    { day: "일" as DayKey, score: 66, count: 5, date: "2025. 01. 18" },
+    { day: "월" as DayKey, score: 88, count: 10, date: "2026. 01. 19" },
+    { day: "화" as DayKey, score: 82, count: 9, date: "2026. 01. 20" },
+    { day: "수" as DayKey, score: 74, count: 8, date: "2026. 01. 21" },
+    { day: "목" as DayKey, score: 90, count: 12, date: "2026. 01. 22" },
+    { day: "금" as DayKey, score: 79, count: 7, date: "2026. 01. 23" },
+    { day: "토" as DayKey, score: 71, count: 6, date: "2026. 01. 24" },
 ];
 
 export function WeeklyScoreCard() {
