@@ -6,7 +6,7 @@ import { DashboardCard } from "./DashboardCard";
 type DayKey = "월" | "화" | "수" | "목" | "금" | "토" | "일";
 
 const SAMPLE = [
-    { day: "일" as DayKey, score: 66, count: 5, date: "2025. 01. 18" },
+    { day: "일" as DayKey, score: 66, count: 5, date: "2026. 01. 18" },
     { day: "월" as DayKey, score: 88, count: 10, date: "2026. 01. 19" },
     { day: "화" as DayKey, score: 82, count: 9, date: "2026. 01. 20" },
     { day: "수" as DayKey, score: 74, count: 8, date: "2026. 01. 21" },
