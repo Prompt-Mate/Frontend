@@ -129,4 +129,78 @@ const Introduction = ({ title, description }: IntroductionPropTypes ) => {
         
 - object는 `interface`, 단일 변수는 `type`으로 선언한다.
 
-<br>
+<br
+
+
+ フロントエンド
+
+AIベースのプロンプト最適化ウェブサービス
+
+Git / Github
+📌 ブランチ戦略
+main (= master): デプロイ専用
+develop: 機能を統合するブランチ
+feat: 各作業ごとの機能ブランチ
+
+👉 1つの feat ブランチは1つの Issue に対応する
+
+📌 ブランチ命名規則
+type/feature-name-#issue-number
+複数単語はハイフン（-）でつなぐ
+
+例
+
+feat/login-#5
+fix/register-form-bug-#6
+setting/router-setting-#1
+📌 コミット規則
+type: メッセージ (#issue番号)
+📑 コミットタグ
+✨ feat: 新機能追加
+🐛 fix: バグ修正
+♻️ refactor: リファクタリング
+💄 style: UI/スタイル修正
+🔥 del: 不要コード削除
+📝 chore: ドキュメント修正
+🚀 deploy: デプロイ関連
+✅ test: テスト追加/修正
+
+例
+
+git commit -m "✨ feat: テーマ選択機能追加 (#3)"
+git commit -m "🐛 fix: ログイン時の500エラー修正 (#7)"
+git commit -m "💄 style: ボタンの色変更 (#9)"
+📌 マージ & ルール
+main, develop に直接コミット禁止
+必ず feature ブランチで作業
+マージは PR（Pull Request）のみ
+作業前に必ず更新
+git pull origin develop
+マージには最低1人の承認が必要
+コーディング規約
+📌 命名規則
+コンポーネント / クラス → PascalCase
+フォルダ → camelCase
+ファイル → camelCase
+変数 / 関数 → camelCase
+定数 → BIG_SNAKE_CASE
+📌 変数
+var 使用禁止
+基本 const、必要時のみ let
+グローバル変数は避ける
+分割代入を活用
+const { name, age } = user;
+📌 関数
+アロー関数を使用
+const handleClick = () => {};
+イベント命名:
+handle + 機能 + イベント
+Boolean:
+is / can / should / has
+📌 TypeScript
+interface IntroductionPropTypes {
+  name: string;
+  age: number;
+}
+object → interface
+単一値 → type
