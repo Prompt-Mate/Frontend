@@ -1,4 +1,4 @@
-
+﻿
 import localFont from "next/font/local";
 
 export const pretendard = localFont({
@@ -18,11 +18,11 @@ export const pretendard = localFont({
 });
 
 /*
-*   Tailwind 클래스	의미	실제 CSS
-    font-thin	얇음	font-weight: 100
-    font-normal	기본	font-weight: 400
-    font-medium	중간	font-weight: 500
-    font-semibold	조금 굵음	font-weight: 600
-    font-bold	굵음	font-weight: 700
-    font-black	매우 굵음	font-weight: 900
+*   Tailwind ?대옒???섎?	?ㅼ젣 CSS
+    font-thin	?뉗쓬	font-weight: 100
+    font-normal	湲곕낯	font-weight: 400
+    font-medium	以묎컙	font-weight: 500
+    font-semibold	議곌툑 援듭쓬	font-weight: 600
+    font-bold	援듭쓬	font-weight: 700
+    font-black	留ㅼ슦 援듭쓬	font-weight: 900
 */

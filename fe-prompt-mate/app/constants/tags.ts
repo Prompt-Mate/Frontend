@@ -1,4 +1,4 @@
-// app/constants/tags.ts
+﻿// app/constants/tags.ts
 
 export type PlatformKey =
   | "chatgpt"
@@ -15,7 +15,7 @@ export type CategoryKey =
   | "content"
   | "daily";
 
-/** TagChip variant용 */
+/** TagChip variant??*/
 export type TagVariant =
   | "platform"
   | "productivity"

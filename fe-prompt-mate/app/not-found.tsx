@@ -1,10 +1,10 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import {NextPage} from "next";
 
 const NotFound: NextPage = () => {
     return (
         <div>
-            <div>이 페이지는 존재하지 않습니다. 다른 페이지를 검색해 보세요.</div>
+            <div>???섏씠吏??議댁옱?섏? ?딆뒿?덈떎. ?ㅻⅨ ?섏씠吏瑜?寃?됲빐 蹂댁꽭??</div>
         </div>
     )
 }

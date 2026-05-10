@@ -2,7 +2,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { pretendard } from "./fonts/fonts";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { AuthProvider } from "@/shared/contexts/AuthContext";
 
 export const metadata: Metadata = {
   title: "Prompt Mate",
